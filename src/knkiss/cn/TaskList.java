@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TaskList {
-
+    int amount = 0;
     private static HashMap<String,Task> list = new HashMap<>();
 
     TaskList(){
@@ -20,13 +20,22 @@ public class TaskList {
             if(m.find()){
                 path = m.group(1);
                 int num = Pass.config.getInt(path+".level");
-                list.put(String.valueOf(num),new Task(path));
+                if(list.containsKey(String.valueOf(num))){
+                    Pass.log.warning("存在多个相同level="+num+"的任务");
+                }else{
+                    list.put(String.valueOf(num),new Task(path));
+                    this.amount ++;
+                }
             }
         });
     }
 
     public Task getTask(int level){
         return list.get(String.valueOf(level));
+    }
+
+    public static HashMap<String,Task> getTaskList(){
+        return list;
     }
 
 

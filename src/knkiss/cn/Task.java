@@ -21,6 +21,7 @@ public class Task {
 
     @SuppressWarnings("deprecation")
     Task(String path){
+        //暂时完成
         this.path = path;
         this.level = Pass.config.getInt(path +".level");
         this.type = Pass.config.getString(path +".type");
@@ -55,7 +56,7 @@ public class Task {
             });
         }else{
             this.enable = false;
-            Pass.log.info("警告：名为"+path+"的任务类型有误");
+            Pass.log.warning("路径为"+path+"的任务类型有误");
         }
     }
 

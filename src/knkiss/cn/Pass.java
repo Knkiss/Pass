@@ -31,15 +31,13 @@ public class Pass extends JavaPlugin implements Listener {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player))return false;
         if(args.length==0)return false;
+        Player p = (Player)sender;
         if(args[0].equalsIgnoreCase("me")){
-            sender.sendMessage("你的任务等级为："+infoList.getPlayerLevel(sender.getName()));
+            sender.sendMessage("你的任务等级为："+infoList.getPlayerLevel(p.getName()));
 
 
         }else if(args[0].equalsIgnoreCase("finish")){
-            Player p = (Player)sender;
-            if(infoList.canFinish(p)){
-                infoList.Finish(p);
-            }
+            infoList.addPlayerLevel(p.getName());
         }
         return true;
     }
@@ -47,7 +45,6 @@ public class Pass extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         infoList.addPlayer(e.getPlayer().getName());
-
     }
 
     public void init(){

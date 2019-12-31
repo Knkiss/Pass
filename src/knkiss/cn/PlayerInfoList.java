@@ -8,12 +8,12 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class PlayerInfoList {
-        int maxLevel = 100;
+        static int maxLevel = 100;
 
         private static HashMap<String, PlayerInfo> list = new HashMap<>();
 
         PlayerInfoList(){
-                this.maxLevel = Pass.config.getInt("settings.maxlevel");
+                maxLevel = Pass.config.getInt("settings.maxlevel");
         }
 
         public static void addPlayer(String name){
@@ -31,11 +31,18 @@ public class PlayerInfoList {
 
         public static boolean addPlayerLevel(String name){
                 name = name.toLowerCase();
-
-                return true;
+                int level = list.get(name).level + 1;
+                if (level == maxLevel){
+                        level = 1;
+                        list.get(name).level = level;
+                        return true;
+                }else{
+                        list.get(name).level = level;
+                        return false;
+                }
         }
 
-        public boolean canFinish(Player p){
+        public static boolean canFinish(Player p){
                 List<ItemStack> submit = Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).submit;
                 List<ItemStack> reward = Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).reward;
                 int s = submit.size(), r = reward.size();
@@ -76,9 +83,9 @@ public class PlayerInfoList {
                 else return false;
         }
 
-        public void Finish(Player p){
-                List<ItemStack> submit = Pass.taskList.getTask(this.getPlayerLevel(p.getName())).submit;
-                List<ItemStack> reward = Pass.taskList.getTask(this.getPlayerLevel(p.getName())).reward;
+        public static void Finish(Player p){
+                List<ItemStack> submit = Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).submit;
+                List<ItemStack> reward = Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).reward;
                 int s = submit.size();
                 for(int j = 0; j < s; j++) {
                         ItemStack item = submit.get(j);
@@ -103,5 +110,6 @@ public class PlayerInfoList {
                 }
                 for(int i = 0; i < reward.size(); i++)
                         p.getInventory().addItem(reward.get(i));
+                Pass.infoList.addPlayerLevel(p.getName());
         }
 }
