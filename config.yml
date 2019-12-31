@@ -1,0 +1,26 @@
+task:
+  collect1:
+    name : 这是第一个任务
+    lore: 新手任务很简单哒
+    level: 1
+    type: collection
+    submit:
+      - 17-0-10
+    reward:
+      - 133-0-1
+  collect2:
+    name: 这是第二个任务
+    lore: 这任务也是基本操作哦
+    level: 2
+    type: collection
+    submit:
+      - 18-0-10
+    reward:
+      - 134-0-1
+
+player:
+  knkiss:
+    level: 1
+
+settings:
+  maxlevel: 100
