@@ -37,7 +37,9 @@ public class Pass extends JavaPlugin implements Listener {
 
 
         }else if(args[0].equalsIgnoreCase("finish")){
-            infoList.addPlayerLevel(p.getName());
+            if(infoList.canFinish(p)){
+                infoList.Finish(p);
+            }
         }
         return true;
     }
@@ -45,6 +47,7 @@ public class Pass extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         infoList.addPlayer(e.getPlayer().getName());
+        saveConfig();
     }
 
     public void init(){

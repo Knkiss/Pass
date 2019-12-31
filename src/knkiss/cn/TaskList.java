@@ -6,8 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TaskList {
-    int amount = 0;
-    private static HashMap<String,Task> list = new HashMap<>();
+    public static int amount = 0;
+    public HashMap<String,Task> list = new HashMap<>();
 
     TaskList(){
 
@@ -34,7 +34,7 @@ public class TaskList {
         return list.get(String.valueOf(level));
     }
 
-    public static HashMap<String,Task> getTaskList(){
+    public HashMap<String,Task> getTaskList(){
         return list;
     }
 
