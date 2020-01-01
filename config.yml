@@ -24,3 +24,4 @@ player:
 
 settings:
   maxlevel: 100
+  saveTiming: 60

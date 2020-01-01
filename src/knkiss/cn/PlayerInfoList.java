@@ -31,14 +31,11 @@ public class PlayerInfoList {
         public boolean addPlayerLevel(String name){
                 name = name.toLowerCase();
                 int level = list.get(name).level + 1;
-                if (level == maxLevel){
-                        level = 1;
-                        list.get(name).level = level;
-                        return true;
-                }else{
-                        list.get(name).level = level;
-                        return false;
-                }
+                if (level == maxLevel) level = 1;
+                list.get(name).level = level;
+                list.get(name).updateConfig();
+                if (level == 1) return true;
+                else return false;
         }
 
         public boolean canFinish(Player p){
@@ -82,8 +79,17 @@ public class PlayerInfoList {
                         }
                         if (n != 0) ts = 0;
                 }
-                if(ts == 1 && tr == 1) return true;
-                else return false;
+                if(ts == 0) {
+                        p.sendMessage("不满足任务条件，无法完成任务");
+                        return false;
+                }else if(tr == 0){
+                        p.sendMessage("背包空间不足，请清理后重试");
+                        return false;
+                }else{
+                        p.sendMessage("任务完成！");
+                        p.sendMessage("你的任务等级为："+Pass.infoList.getPlayerLevel(p.getName()));
+                        return true;
+                }
         }
 
         public void Finish(Player p){
