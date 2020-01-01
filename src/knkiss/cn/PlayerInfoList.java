@@ -32,105 +32,101 @@ public class PlayerInfoList {
                 return list.get(name).level;
         }
 
-        public boolean addPlayerLevel(String name){
+        public void addPlayerLevel(String name){
                 name = name.toLowerCase();
                 int level = list.get(name).level + 1;
                 if (level == maxLevel) level = 1;
                 list.get(name).level = level;
                 list.get(name).updateConfig();
-                if (level == 1) return true;
-                else return false;
         }
 
         public boolean setPlayerLevel(String name,int level){
                 name = name.toLowerCase();
-                if (level >= maxLevel) level = 1;
-                list.get(name).level = level;
-                list.get(name).updateConfig();
-                if (level == 1) return true;
-                else return false;
+                if (level >= maxLevel || level <= 0) level = 1;
+                if (list.containsKey(name)){
+                        list.get(name).level = level;
+                        list.get(name).updateConfig();
+                }else{
+                        if(Pass.config.contains("player."+name+".level")){
+                                Pass.config.set("player."+name+".level",level);
+                        }else{
+                                return false;
+                        }
+                }
+                return true;
         }
 
         public boolean canFinish(Player p){
-                if (Pass.taskList.amount < Pass.infoList.getPlayerLevel(p.getName())){
+                if (TaskList.amount < Pass.infoList.getPlayerLevel(p.getName())){
                         p.sendMessage("您已到达当前任务等级上限");
                         return false;
                 }
-
-                List<ItemStack> submit = Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).submit;
-                List<ItemStack> reward = Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).reward;
-                int tr = 1, ts = 1;
-                ItemStack item;
-                int n;
-                for(int j = 0; j < reward.size(); j++) {
-                        item = reward.get(j);
-                        n = item.getAmount();
-                        int space = 0;
-                        for (int i = 0; i < 36 && n != 0; i++) {
-                                if (p.getInventory().getItem(i) == null) space += 64;
-                                else if (p.getInventory().getItem(i).getTypeId() == item.getTypeId())
-                                        space += (64 - p.getInventory().getItem(i).getAmount());
-                        }
-                        if(space < item.getAmount()) tr = 0;
+                Task task = Pass.taskList.list.get(String.valueOf(Pass.infoList.getPlayerLevel(p.getName())));
+                if (!task.enable){
+                        p.sendMessage("下个任务还未开启，请等待任务开启");
+                        return false;
                 }
-                for(int j = 0; j < submit.size(); j++) {
-                        item = submit.get(j);
-                        n = item.getAmount();
-                        for (int i = 0; i < 36 && n != 0; i++) {
-                                if (p.getInventory().getItem(i) != null) {
-                                        if (p.getInventory().getItem(i).getTypeId() == (item.getTypeId())) {
-                                                if (p.getInventory().getItem(i).getAmount() >= n) {
-                                                        n = 0;
-                                                        continue;
-                                                }
-                                                if (p.getInventory().getItem(i).getAmount() < n) {
-                                                        n = n - p.getInventory().getItem(i).getAmount();
-                                                        continue;
+
+                if (task.type.equalsIgnoreCase("collect")){
+                        List<ItemStack> submit = task.submit;
+                        int ts = 1;
+                        ItemStack item;
+                        int n;
+                        for (ItemStack itemStack : submit) {
+                                item = itemStack;
+                                n = item.getAmount();
+                                for (int i = 0; i < 36 && n != 0; i++) {
+                                        if (p.getInventory().getItem(i) != null) {
+                                                if (p.getInventory().getItem(i).getTypeId() == (item.getTypeId())) {
+                                                        if (p.getInventory().getItem(i).getAmount() >= n) {
+                                                                n = 0;
+                                                                continue;
+                                                        }
+                                                        if (p.getInventory().getItem(i).getAmount() < n) {
+                                                                n = n - p.getInventory().getItem(i).getAmount();
+                                                        }
                                                 }
                                         }
                                 }
+                                if (n != 0) ts = 0;
                         }
-                        if (n != 0) ts = 0;
+                        if(ts == 0) {
+                                p.sendMessage("不满足任务条件，无法完成任务");
+                                return false;
+                        }else {
+                                p.sendMessage("任务完成！");
+                                p.sendMessage("你的任务等级为："+Pass.infoList.getPlayerLevel(p.getName()));
+                                return true;
+                        }
+                }else if (task.type.equalsIgnoreCase("break")){
+
                 }
-                if(ts == 0) {
-                        p.sendMessage("不满足任务条件，无法完成任务");
-                        return false;
-                }else if(tr == 0){
-                        p.sendMessage("背包空间不足，请清理后重试");
-                        return false;
-                }else{
-                        p.sendMessage("任务完成！");
-                        p.sendMessage("你的任务等级为："+Pass.infoList.getPlayerLevel(p.getName()));
-                        return true;
-                }
+                return false;
         }
 
         public void Finish(Player p){
                 List<ItemStack> submit = Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).submit;
-                List<ItemStack> reward = Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).reward;
-                for(int j = 0; j < submit.size(); j++) {
-                        ItemStack item = submit.get(j);
+                for (ItemStack item : submit) {
                         int n = item.getAmount();
                         for (int i = 0; i < 36 && n != 0; i++) {
                                 if (p.getInventory().getItem(i) != null) {
-                                        if (p.getInventory().getItem(i).getTypeId() == item.getTypeId()
-                                                &&  p.getInventory().getItem(i).getDurability() == item.getDurability()) {
-                                                if (p.getInventory().getItem(i).getAmount() >= n) {
-                                                        p.getInventory().getItem(i).setAmount(p.getInventory().getItem(i).getAmount() - n);
+                                        ItemStack is = p.getInventory().getItem(i);
+                                        if (is.getTypeId() == item.getTypeId() && is.getDurability() == item.getDurability()) {
+                                                if (is.getAmount() >= n) {
+                                                        p.getInventory().getItem(i).setAmount(is.getAmount() - n);
                                                         n = 0;
                                                         continue;
                                                 }
-                                                if (p.getInventory().getItem(i).getAmount() < n) {
-                                                        n = n - p.getInventory().getItem(i).getAmount();
+                                                if (is.getAmount() < n) {
+                                                        n = n - is.getAmount();
                                                         p.getInventory().getItem(i).setAmount(0);
-                                                        continue;
                                                 }
                                         }
                                 }
                         }
                 }
-                for(int i = 0; i < reward.size(); i++)
-                        p.getInventory().addItem(reward.get(i));
+                List<ItemStack> reward = Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).reward;
+                list.get(p.getName().toLowerCase()).addReward(reward);
                 Pass.infoList.addPlayerLevel(p.getName());
         }
 
@@ -138,6 +134,7 @@ public class PlayerInfoList {
                 list.forEach((name,pinfo)->{
                         sender.sendMessage("-------------playerInfoList-------------");
                         sender.sendMessage("name:" + name + "  level:" + pinfo.level);
+                        sender.sendMessage("reward:" + pinfo.reward.toString());
                 });
         }
 
@@ -151,8 +148,7 @@ public class PlayerInfoList {
                 int level = Pass.infoList.getPlayerLevel(p.getName());
                 int stateLine = (level - 1) / 9 + 1;
                 int maxLine = task.size() / 9 + 1;
-                int i = 0, j = 0, l = 0;
-                p.sendMessage(""+stateLine+maxLine);
+                int i = 0, j, l = 0;
                 while(i <= maxLine && i < 6) {
                         if (i == stateLine) {
                                 for (int k = 0; k < (level % 9) - 1; k++) {
@@ -168,14 +164,16 @@ public class PlayerInfoList {
                         }
                         else{
                                 for(j = 0; j < 9 && (j + 9 * l) + 1 <= task.size(); j++){
-                                        p.sendMessage("task");
-                                        ItemStack logo = task.get(String.valueOf(l * 9 + j + 1)).logo;
-                                        inv.setItem(i * 9 + j, logo);
-                                        p.sendMessage("task__");
+                                        if(task.get(String.valueOf(l * 9 + j + 1)).enable){
+                                                ItemStack logo = task.get(String.valueOf(l * 9 + j + 1)).logo;
+                                                inv.setItem(i * 9 + j, logo);
+                                        }else{
+                                                ItemStack logo = util.newItem(347,0,"任务未开启，请等待开启");
+                                                inv.setItem(i * 9 + j, logo);
+                                        }
                                 }
                                 l++;
                         }
-                        p.sendMessage("i++"+i);
                         i++;
                 }
                 p.openInventory(inv);

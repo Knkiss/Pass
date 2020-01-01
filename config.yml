@@ -1,28 +1,30 @@
 task:
   collect1:
     level: 1
-    type: collection
+    type: collect
     info:
-      name: 这是第一个任务
+      name: 新手收集-10个橡木
       lore:
-        - 新手任务一很简单哒
-      item: 1-0-1
+        - 这是一个收集任务
+        - 新手任务都是很简单的任务
+      item: 17-0-10
     submit:
       - 17-0-10
     reward:
-      - 133-0-1
-  collect2:
+      - 264-0-1
+  break1:
     level: 2
-    type: collection
+    type: break
     info:
-      name: 这是第二个任务
+      name: 新手破坏-1个工作台
       lore:
-        - 新手任务二也很简单哒
-      item: 2-0-1
-    submit:
-      - 18-0-10
+        - 这是一个破坏任务
+        - 合成任务自动检测完成
+      item: 58-0-1
+    craft:
+      - 58-0-1
     reward:
-      - 134-0-1
+      - 265-0-16
 
 player:
   knkiss:

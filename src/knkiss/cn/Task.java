@@ -16,7 +16,7 @@ public class Task {
     String type;
     boolean enable = true;
 
-    //collection 收集类任务
+    //collect 收集类任务
     List<ItemStack> submit = new ArrayList<>();
     List<ItemStack> reward = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class Task {
         }
 
 
-        if(type.equalsIgnoreCase("collection")){
+        if(type.equalsIgnoreCase("collect")){
             List<String> submit_item = Pass.config.getStringList(path+".submit");
             List<String> reward_item = Pass.config.getStringList(path+".reward");
 

@@ -1,7 +1,6 @@
 package knkiss.cn;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -30,16 +29,33 @@ public class util {
         return i;
     }
 
+    public static ItemStack newItem(int ID,int Durability,String Display)
+    {
+        ItemStack i = new ItemStack(ID);
+        i.setDurability((short) Durability);
+        ItemMeta iMeta = i.getItemMeta();
+        iMeta.setDisplayName(Display);
+        i.setItemMeta(iMeta);
+        return i;
+    }
+
     public static ItemStack newItem(Material material,int Durability,String Display,String Lore)
     {
         ItemStack i = new ItemStack(material);
         i.setDurability((short) Durability);
         ItemMeta iMeta = i.getItemMeta();
-        List<String> iMetaLore = new ArrayList<String>();
+        List<String> iMetaLore = new ArrayList<>();
         iMetaLore.add(Lore);
         iMeta.setLore(iMetaLore);
         iMeta.setDisplayName(Display);
         i.setItemMeta(iMeta);
         return i;
+    }
+
+    public static boolean canParseInt(String str){
+        if(str == null){
+            return false;
+        }
+        return str.matches("\\d+");
     }
 }

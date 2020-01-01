@@ -29,7 +29,7 @@ public class TaskList {
                     Pass.log.warning("存在多个相同level="+num+"的任务");
                 }else{
                     list.put(String.valueOf(num),new Task(path));
-                    this.amount ++;
+                    amount ++;
                 }
             }
         });
@@ -55,7 +55,7 @@ public class TaskList {
             sender.sendMessage("name:" + name);
             sender.sendMessage("lore:" + lore.toString());
             sender.sendMessage("item:" + ID +" "+Durability+" "+amount);
-            sender.sendMessage("Status:" + enable);
+            sender.sendMessage("Enable:" + enable);
         });
     }
 }
