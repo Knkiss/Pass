@@ -33,10 +33,6 @@ public class TaskList {
                 }
             }
         });
-
-        for(int i = amount + 1;i<=100;i++){
-            list.put(String.valueOf(i),list.get("0"));
-        }
     }
 
     public Task getTask(int level){
