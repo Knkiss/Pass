@@ -1,6 +1,10 @@
 package knkiss.cn;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -32,6 +36,15 @@ public class PlayerInfoList {
                 name = name.toLowerCase();
                 int level = list.get(name).level + 1;
                 if (level == maxLevel) level = 1;
+                list.get(name).level = level;
+                list.get(name).updateConfig();
+                if (level == 1) return true;
+                else return false;
+        }
+
+        public boolean setPlayerLevel(String name,int level){
+                name = name.toLowerCase();
+                if (level >= maxLevel) level = 1;
                 list.get(name).level = level;
                 list.get(name).updateConfig();
                 if (level == 1) return true;
@@ -119,5 +132,52 @@ public class PlayerInfoList {
                 for(int i = 0; i < reward.size(); i++)
                         p.getInventory().addItem(reward.get(i));
                 Pass.infoList.addPlayerLevel(p.getName());
+        }
+
+        public void check(CommandSender sender){
+                list.forEach((name,pinfo)->{
+                        sender.sendMessage("-------------playerInfoList-------------");
+                        sender.sendMessage("name:" + name + "  level:" + pinfo.level);
+                });
+        }
+
+        public void showTask(Player p)
+        {
+                HashMap<String,Task> task = Pass.taskList.list;
+                Inventory inv = Bukkit.createInventory(p,6 * 9, "TaskList");
+                ItemStack Locked = util.newItem(org.bukkit.Material.STAINED_GLASS_PANE, 14, "Locked");
+                ItemStack Doing = util.newItem(org.bukkit.Material.STAINED_GLASS_PANE, 4, "Doing");
+                ItemStack Passed = util.newItem(org.bukkit.Material.STAINED_GLASS_PANE, 5, "Passed");
+                int level = Pass.infoList.getPlayerLevel(p.getName());
+                int stateLine = (level - 1) / 9 + 1;
+                int maxLine = task.size() / 9 + 1;
+                int i = 0, j = 0, l = 0;
+                p.sendMessage(""+stateLine+maxLine);
+                while(i <= maxLine && i < 6) {
+                        if (i == stateLine) {
+                                for (int k = 0; k < (level % 9) - 1; k++) {
+                                        inv.setItem(stateLine * 9 + k, Passed);
+                                }
+                                inv.setItem(stateLine * 9 + (level % 9) - 1, Doing);
+                                for (int k = 8; k > (level % 9) - 1 ; k--) {
+                                        if(((l - 1) * 9 + k + 1) <= task.size()){
+                                                inv.setItem(stateLine * 9 + k, Locked);
+                                        }
+
+                                }
+                        }
+                        else{
+                                for(j = 0; j < 9 && (j + 9 * l) + 1 <= task.size(); j++){
+                                        p.sendMessage("task");
+                                        ItemStack logo = task.get(String.valueOf(l * 9 + j + 1)).logo;
+                                        inv.setItem(i * 9 + j, logo);
+                                        p.sendMessage("task__");
+                                }
+                                l++;
+                        }
+                        p.sendMessage("i++"+i);
+                        i++;
+                }
+                p.openInventory(inv);
         }
 }

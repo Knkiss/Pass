@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("deprecation")
 public class Task {
     String path;
-    String name;
-    String lore;
+
+    ItemStack logo;
     int level;
     String type;
     boolean enable = true;
@@ -22,18 +23,32 @@ public class Task {
     @SuppressWarnings("deprecation")
     Task(String path){
         //暂时完成
+
         this.path = path;
         this.level = Pass.config.getInt(path +".level");
         this.type = Pass.config.getString(path +".type");
-        this.name = Pass.config.getString(path +".name");
-        this.lore = Pass.config.getString(path +".lore");
+
+        String item = Pass.config.getString(path +".info.item");
+
+        String pattern = "(.*)-(.*)-(.*)";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m1 = r.matcher(item);
+        if(m1.find()){
+            int ID = Integer.parseInt(m1.group(1));
+            int Durability = Integer.parseInt(m1.group(2));
+            int amount = Integer.parseInt(m1.group(3));
+            String name = Pass.config.getString(path +".info.name");
+            List<String> lore = Pass.config.getStringList(path +".info.lore");
+            this.logo = util.newItem(ID,amount,Durability,name,lore);
+
+        }else{
+            this.type = "disable";
+        }
+
 
         if(type.equalsIgnoreCase("collection")){
             List<String> submit_item = Pass.config.getStringList(path+".submit");
             List<String> reward_item = Pass.config.getStringList(path+".reward");
-
-            String pattern = "(.*)-(.*)-(.*)";
-            Pattern r = Pattern.compile(pattern);
 
             submit_item.forEach(str->{
                 Matcher m = r.matcher(str);

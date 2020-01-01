@@ -1,10 +1,15 @@
 package knkiss.cn;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("deprecation")
 public class TaskList {
     public static int amount = 0;
     public HashMap<String,Task> list = new HashMap<>();
@@ -28,15 +33,33 @@ public class TaskList {
                 }
             }
         });
+
+        for(int i = amount + 1;i<=100;i++){
+            list.put(String.valueOf(i),list.get("0"));
+        }
     }
 
     public Task getTask(int level){
         return list.get(String.valueOf(level));
     }
 
-    public HashMap<String,Task> getTaskList(){
-        return list;
+    public void check(CommandSender sender){
+        list.forEach((level,Task)->{
+            ItemStack logo = Task.logo;
+            String type = Task.type;
+            String name = logo.getItemMeta().getDisplayName();
+            List<String> lore = logo.getItemMeta().getLore();
+            int amount = logo.getAmount();
+            int ID = logo.getTypeId();
+            int Durability = logo.getDurability();
+            boolean enable = Task.enable;
+            sender.sendMessage("-------------TaskList-------------------");
+            sender.sendMessage("level:" + level);
+            sender.sendMessage("type:" + type);
+            sender.sendMessage("name:" + name);
+            sender.sendMessage("lore:" + lore.toString());
+            sender.sendMessage("item:" + ID +" "+Durability+" "+amount);
+            sender.sendMessage("Status:" + enable);
+        });
     }
-
-
 }

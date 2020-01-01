@@ -37,19 +37,42 @@ public class Pass extends JavaPlugin implements Listener {
     @SuppressWarnings("deprecation")
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player))return false;
         if(args.length==0)return false;
-        Player p = (Player)sender;
+
         if(args[0].equalsIgnoreCase("me")){
-            p.sendMessage("你的任务等级为："+infoList.getPlayerLevel(p.getName()));
+            //task me
+            if(!(sender instanceof Player)) return false;
+            Player p = (Player)sender;
+            infoList.showTask(p);
 
 
         }else if(args[0].equalsIgnoreCase("finish")){
+            //task finish
+            if(!(sender instanceof Player)) return false;
+            Player p = (Player)sender;
             if(infoList.canFinish(p)){
                 infoList.Finish(p);
-
+            }
+        }else if(args[0].equalsIgnoreCase("check")){
+            //task check [task/player]
+            if (args.length == 1){
+                infoList.check(sender);
+                taskList.check(sender);
             }else{
-
+                if(args[1].equalsIgnoreCase("task")){
+                    taskList.check(sender);
+                }else if(args[1].equalsIgnoreCase("player")){
+                    infoList.check(sender);
+                }else {
+                    sender.sendMessage("/task check [task/player]");
+                }
+            }
+        }else if(args[0].equalsIgnoreCase("set")){
+            //task set <name> <number>
+            if (args.length >= 3){
+                //等待编辑
+            }else{
+                sender.sendMessage("/task set <name> <number>");
             }
         }
         return true;

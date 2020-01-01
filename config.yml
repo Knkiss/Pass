@@ -1,18 +1,24 @@
 task:
   collect1:
-    name : 这是第一个任务
-    lore: 新手任务很简单哒
     level: 1
     type: collection
+    info:
+      name: 这是第一个任务
+      lore:
+        - 新手任务一很简单哒
+      item: 1-0-1
     submit:
       - 17-0-10
     reward:
       - 133-0-1
   collect2:
-    name: 这是第二个任务
-    lore: 这任务也是基本操作哦
     level: 2
     type: collection
+    info:
+      name: 这是第二个任务
+      lore:
+        - 新手任务二也很简单哒
+      item: 2-0-1
     submit:
       - 18-0-10
     reward:
