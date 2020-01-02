@@ -19,7 +19,6 @@ public class TaskList {
         Set<String> keys= Pass.config.getKeys(true);
         String pattern = "(task..*).level";
         Pattern r = Pattern.compile(pattern);
-
         keys.forEach(path->{
             Matcher m = r.matcher(path);
             if(m.find()){
@@ -33,6 +32,10 @@ public class TaskList {
                 }
             }
         });
+        for(int i=amount+1;i<=60;i++){
+            list.put(String.valueOf(i),new Task(i));
+            amount++;
+        }
     }
 
     public Task getTask(int level){

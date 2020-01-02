@@ -1,6 +1,7 @@
 name: Pass
 main: knkiss.cn.Pass
-version: 0.0.2-FIXBUG
+version: 0.0.4
+authors: [Knkiss, Lundup536]
 
 commands:
   pass:

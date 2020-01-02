@@ -1,5 +1,6 @@
 package knkiss.cn;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -19,6 +20,14 @@ public class Task {
     //collect 收集类任务
     List<ItemStack> submit = new ArrayList<>();
     List<ItemStack> reward = new ArrayList<>();
+
+    Task(int level){
+        this.path = "task.test" + level;
+        this.logo = util.newItem(Material.BOOK,0,path,path);
+        this.level = level;
+        this.type = "test";
+        this.enable = false;
+    }
 
     @SuppressWarnings("deprecation")
     Task(String path){
