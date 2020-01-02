@@ -1,14 +1,17 @@
 package knkiss.cn;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -51,6 +54,10 @@ public class Pass extends JavaPlugin implements Listener {
             if(infoList.canFinish(p)){
                 infoList.Finish(p);
             }
+        }else if(args[0].equalsIgnoreCase("reward")){
+            //pass finish
+            if(!(sender instanceof Player)) return false;
+            infoList.showReward((Player)sender);
         }else if(args[0].equalsIgnoreCase("check")){
             //pass check [task/player]
             if (args.length == 1){
@@ -97,6 +104,43 @@ public class Pass extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         infoList.addPlayer(e.getPlayer().getName());
+    }
+
+    @EventHandler
+    public void atInventory(InventoryClickEvent e){
+        Player p = (Player) e.getWhoClicked();
+        if(e.getInventory().getTitle().equalsIgnoreCase("TaskList")){
+            e.setCancelled(true);
+            if(e.getCurrentItem() == null)return;
+            if(!e.getAction().equals(InventoryAction.PICKUP_ALL)) return;
+            int i = e.getInventory().first(util.newItem(Material.STAINED_GLASS_PANE, 4, "Doing"));
+            int index = e.getRawSlot();
+            if((index >= i - i % 9 && index <=i + 8 - i % 9) || e.getRawSlot()>=54) return;
+
+            if(index < i - 9){
+                p.sendMessage("您已完成此任务");
+            }else if(index > i - 9){
+                p.sendMessage("任务未解锁");
+            }else{
+                if(infoList.canFinish(p)){
+                    infoList.Finish(p);
+                }
+            }
+
+        }else if(e.getInventory().getTitle().equalsIgnoreCase("RewardList")){
+            /*
+            ItemStack Next = util.newItem(Material.PAPER, 0, "Next");
+            ItemStack Last = util.newItem(Material.PAPER, 0, "Last");
+            if(e.getCurrentItem().equals(Next) || e.getCurrentItem().equals(Last)){
+                e.setCancelled(true);
+                return;
+            }
+            if(e.getAction().equals(InventoryAction.PICKUP_ALL)){
+                infoList.getPlayerInfo(p).removeReward(e.getCurrentItem());
+            }else{
+                e.setCancelled(true);
+            }*/
+        }
     }
 
     public void init(){

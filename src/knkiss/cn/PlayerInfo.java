@@ -37,6 +37,16 @@ public class PlayerInfo {
         }
     }
 
+    public void removeReward(ItemStack item){
+        reward.remove(item);
+        int ID = item.getTypeId();
+        int Durability = item.getDurability();
+        int amount = item.getAmount();
+        String str = ID+"-"+Durability+"-"+amount;
+        rewardStr.remove(str);
+        Pass.config.set(path+".reward",rewardStr);
+    }
+
     public void addReward(ItemStack item){
         reward.add(item);
         int ID = item.getTypeId();

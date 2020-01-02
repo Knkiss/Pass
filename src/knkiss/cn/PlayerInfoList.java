@@ -66,25 +66,18 @@ public class PlayerInfoList {
                         p.sendMessage("下个任务还未开启，请等待任务开启");
                         return false;
                 }
-
                 if (task.type.equalsIgnoreCase("collect")){
-                        List<ItemStack> submit = task.submit;
                         int ts = 1;
-                        ItemStack item;
-                        int n;
-                        for (ItemStack itemStack : submit) {
-                                item = itemStack;
-                                n = item.getAmount();
+                        for (ItemStack item : task.submit) {
+                                int n = item.getAmount();
                                 for (int i = 0; i < 36 && n != 0; i++) {
-                                        if (p.getInventory().getItem(i) != null) {
-                                                if (p.getInventory().getItem(i).getTypeId() == (item.getTypeId())) {
-                                                        if (p.getInventory().getItem(i).getAmount() >= n) {
-                                                                n = 0;
-                                                                continue;
-                                                        }
-                                                        if (p.getInventory().getItem(i).getAmount() < n) {
-                                                                n = n - p.getInventory().getItem(i).getAmount();
-                                                        }
+                                        if (p.getInventory().getItem(i) == null) continue;
+                                        if (p.getInventory().getItem(i).getTypeId() == (item.getTypeId())) {
+                                                if (p.getInventory().getItem(i).getAmount() >= n) {
+                                                        n = 0;
+                                                        break;
+                                                }else{
+                                                        n = n - p.getInventory().getItem(i).getAmount();
                                                 }
                                         }
                                 }
@@ -94,8 +87,6 @@ public class PlayerInfoList {
                                 p.sendMessage("不满足任务条件，无法完成任务");
                                 return false;
                         }else {
-                                p.sendMessage("任务完成！");
-                                p.sendMessage("你的任务等级为："+Pass.infoList.getPlayerLevel(p.getName()));
                                 return true;
                         }
                 }else if (task.type.equalsIgnoreCase("break")){
@@ -105,29 +96,27 @@ public class PlayerInfoList {
         }
 
         public void Finish(Player p){
-                List<ItemStack> submit = Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).submit;
-                for (ItemStack item : submit) {
+                for (ItemStack item : Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).submit) {
                         int n = item.getAmount();
                         for (int i = 0; i < 36 && n != 0; i++) {
-                                if (p.getInventory().getItem(i) != null) {
-                                        ItemStack is = p.getInventory().getItem(i);
-                                        if (is.getTypeId() == item.getTypeId() && is.getDurability() == item.getDurability()) {
-                                                if (is.getAmount() >= n) {
-                                                        p.getInventory().getItem(i).setAmount(is.getAmount() - n);
-                                                        n = 0;
-                                                        continue;
-                                                }
-                                                if (is.getAmount() < n) {
-                                                        n = n - is.getAmount();
-                                                        p.getInventory().getItem(i).setAmount(0);
-                                                }
-                                        }
+                                if(p.getInventory().getItem(i) == null) continue;
+                                ItemStack is = p.getInventory().getItem(i);
+                                if (is.getTypeId() != item.getTypeId() || is.getDurability() != item.getDurability()) continue;
+                                int amounts = is.getAmount();
+                                if (amounts >= n) {
+                                        p.getInventory().getItem(i).setAmount(amounts - n);
+                                        break;
+                                }else{
+                                        n = n - amounts;
+                                        p.getInventory().getItem(i).setAmount(0);
                                 }
                         }
                 }
-                List<ItemStack> reward = Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).reward;
-                list.get(p.getName().toLowerCase()).addReward(reward);
+                list.get(p.getName().toLowerCase()).addReward(Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).reward);
                 Pass.infoList.addPlayerLevel(p.getName());
+                p.sendMessage("任务完成，你的当前等级为："+Pass.infoList.getPlayerLevel(p.getName()));
+                p.sendMessage("已将奖励存储到奖励箱,/pass reward查看");
+                Pass.infoList.showTask(p);
         }
 
         public void check(CommandSender sender){
@@ -177,5 +166,36 @@ public class PlayerInfoList {
                         i++;
                 }
                 p.openInventory(inv);
+        }
+
+        public void showReward(Player p){
+                showReward(p,1);
+        }
+
+        public void showReward(Player p,int page){
+                List<ItemStack> item = Pass.infoList.list.get(p.getName().toLowerCase()).reward;
+                int maxpage = (item.size()-1)/45+1;
+                if(page > maxpage || page < 1) page = 1;
+                //0~44 45~89
+                // 1     2
+                //i + ((page-1)*45)
+                Inventory inv = Bukkit.createInventory(p,6 * 9, "RewardList");
+                for(int i=0;i<45;i++){
+                        int index = i + ((page-1)*45);
+                        if(index <= item.size()-1){
+                                inv.setItem(i,item.get(index));
+                        }
+                }
+                if(page > 1){
+                        inv.setItem(45,util.newItem(Material.PAPER,0,"返回上一页",String.valueOf(page - 1)));
+                }
+                if(page < maxpage){
+                        inv.setItem(45,util.newItem(Material.PAPER,0,"返回上一页",String.valueOf(page + 1)));
+                }
+                p.openInventory(inv);
+        }
+
+        public PlayerInfo getPlayerInfo(Player p){
+                return list.get(p.getName().toLowerCase());
         }
 }
