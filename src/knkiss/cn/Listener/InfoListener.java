@@ -3,6 +3,7 @@ package knkiss.cn.Listener;
 import knkiss.cn.Pass;
 import knkiss.cn.PlayerInfo;
 import knkiss.cn.task.craftTask;
+import knkiss.cn.util;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,16 +26,11 @@ public class InfoListener implements Listener {
     @EventHandler
     public void onCraftItem(InventoryClickEvent e){
         if(!e.getSlotType().equals(InventoryType.SlotType.RESULT)) return;
-        if(!(e.getAction().equals(InventoryAction.PICKUP_ALL) || e.getAction().equals(InventoryAction.PICKUP_HALF)
-                || e.getAction().equals(InventoryAction.PICKUP_SOME) || e.getAction().equals(InventoryAction.PICKUP_ONE)))return;
+        if(e.getAction().equals(InventoryAction.NOTHING))return;
+        if(!util.isCraftAction(e.getAction()))return;
         if(e.getCurrentItem()==null)return;
-
         Player p = (Player) e.getWhoClicked();
-
-
         if(!Pass.taskList.list.containsKey(String.valueOf(Pass.infoList.getPlayerLevel(p.getName()))))return;
-
-        //这里有BUG
         if(!Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).type.equalsIgnoreCase("craft"))return;
         List<ItemStack> now = Pass.infoList.getPlayerInfo(p).craft;
         if(now.isEmpty()){

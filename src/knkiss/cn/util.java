@@ -1,6 +1,8 @@
 package knkiss.cn;
 
 import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -57,5 +59,17 @@ public class util {
             return false;
         }
         return str.matches("\\d+");
+    }
+
+    public static boolean isCraftAction(InventoryAction ac){
+        if(ac.equals(InventoryAction.UNKNOWN))return false;
+        if(ac.equals(InventoryAction.NOTHING))return false;
+        if(ac.equals(InventoryAction.PLACE_ALL))return false;
+        if(ac.equals(InventoryAction.PLACE_ONE))return false;
+        if(ac.equals(InventoryAction.PLACE_SOME))return false;
+        if(ac.equals(InventoryAction.SWAP_WITH_CURSOR))return false;
+        if(ac.equals(InventoryAction.HOTBAR_MOVE_AND_READD))return false;
+        if(ac.equals(InventoryAction.CLONE_STACK))return false;
+        return !ac.equals(InventoryAction.COLLECT_TO_CURSOR);
     }
 }

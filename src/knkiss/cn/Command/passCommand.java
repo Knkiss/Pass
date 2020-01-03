@@ -49,7 +49,6 @@ public class passCommand implements CommandExecutor {
         }else if(args[0].equalsIgnoreCase("set")){
             //pass set <name> <number>
             if (args.length == 3){
-                //等待编辑
                 if(util.canParseInt(args[2])){
                     int level = Integer.parseInt(args[2]);
                     if(!Pass.infoList.setPlayerLevel(args[1],level)){
@@ -64,13 +63,28 @@ public class passCommand implements CommandExecutor {
             }else{
                 sender.sendMessage("/pass set <name> <number>");
             }
+        }else if(args[0].equalsIgnoreCase("buy")){
+            //pass buy <number>
+            if(args.length == 2){
+                if(util.canParseInt(args[1])) Pass.infoList.buyLevel((Player)sender, Integer.parseInt(args[1]));
+                else sender.sendMessage("/pass buy <number> number必须为纯数字");
+            }else sender.sendMessage("/pass buy <number>");
+        }else if(args[0].equalsIgnoreCase("skip")) {
+            //pass skip <number>
+            if (args.length == 2) {
+                if (util.canParseInt(args[1])) Pass.infoList.skipLevel((Player) sender, Integer.parseInt(args[1]));
+                else sender.sendMessage("/pass skip <number> number必须为纯数字");
+            } else sender.sendMessage("/pass skip <number>");
         }else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")){
             //pass help/?
             sender.sendMessage("/pass help/? - 查看帮助");
             sender.sendMessage("/pass me - 查看自己的任务表");
             sender.sendMessage("/pass finish - 完成当前任务");
-            sender.sendMessage("/pass check [task/player] - 查看当前内部信息");
-            sender.sendMessage("/pass set <name> <level:1~maxlevel> - 设置玩家等级");
+            sender.sendMessage("/pass reward - 查看自己的奖励箱");
+            sender.sendMessage("/pass skip <number> - 跳过number个任务");
+            sender.sendMessage("/pass buy <number> - 完成number个任务");
+            sender.sendMessage("/pass check [task/player] - 查看当前内部信息[维护]");
+            sender.sendMessage("/pass set <name> <level:1~maxlevel> - 设置玩家等级[待删除]");
         }
         return true;
     }

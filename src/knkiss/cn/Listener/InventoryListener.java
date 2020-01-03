@@ -27,7 +27,7 @@ public class InventoryListener implements Listener {
             if (i == -1) {
                 //已完成或未进行的任务页面
                 if (index == 45 || index == 53) {//翻页
-                    PlayerInfoList.showTask(p, Integer.parseInt(e.getCurrentItem().getItemMeta().getLore().get(0)));
+                    Pass.infoList.showTask(p, Integer.parseInt(e.getCurrentItem().getItemMeta().getLore().get(0)));
                 } else {
                     p.sendMessage("此页非任务进行页");
                 }
@@ -39,7 +39,7 @@ public class InventoryListener implements Listener {
                 } else if (index > i - 9 && index != 45 && index != 53) {
                     p.sendMessage("任务未解锁");
                 } else if (index == 45 || index == 53) {//翻页
-                    PlayerInfoList.showTask(p, Integer.parseInt(e.getCurrentItem().getItemMeta().getLore().get(0)));
+                    Pass.infoList.showTask(p, Integer.parseInt(e.getCurrentItem().getItemMeta().getLore().get(0)));
                 } else {
                     if(Pass.taskList.canFinish(p)){
                         Pass.taskList.Finish(p);

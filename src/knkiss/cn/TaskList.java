@@ -19,7 +19,6 @@ public class TaskList {
     public HashMap<String, task> list = new HashMap<>();
 
     TaskList(){
-
         Set<String> keys= Pass.config.getKeys(true);
         String pattern = "(task..*).level";
         Pattern r = Pattern.compile(pattern);
@@ -41,6 +40,14 @@ public class TaskList {
     }
 
     public boolean canFinish(Player p){
+        if(!list.containsKey(String.valueOf(Pass.infoList.getPlayerLevel(p.getName())))){
+            p.sendMessage("暂时无下个任务，请等候开启");
+            return false;
+        }
+        if(!getTask(Pass.infoList.getPlayerLevel(p.getName())).enable){
+            p.sendMessage("下个任务还未开启，请等候开启");
+            return false;
+        }
         return getTask(Pass.infoList.getPlayerLevel(p.getName())).canFinish(p);
     }
 

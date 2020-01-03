@@ -50,7 +50,6 @@ public class craftTask extends task{
     public void Finish(Player p) {
         Pass.infoList.list.get(p.getName().toLowerCase()).addReward(this.reward);
         Pass.infoList.addPlayerLevel(p.getName());
-        p.sendMessage("任务完成，你的当前等级为："+Pass.infoList.getPlayerLevel(p.getName()));
-        p.sendMessage("已将奖励存储到奖励箱");
+        p.sendTitle("任务完成！","当前等级："+ Pass.infoList.getPlayerLevel(p.getName())+" 已将奖励存储到奖励箱");
     }
 }

@@ -64,6 +64,23 @@ public class PlayerInfoList {
                 return true;
         }
 
+        public void buyLevel(Player p,int n) {
+                //将在后续版本修复
+                for(int i = 0; i < n; i++){
+                        list.get(p.getName().toLowerCase()).addReward(Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).reward);
+                        Pass.infoList.addPlayerLevel(p.getName());
+                }
+                p.sendTitle("任务完成！","当前等级："+ Pass.infoList.getPlayerLevel(p.getName())+" 已将奖励存储到奖励箱");
+        }
+
+        public void skipLevel(Player p,int n){
+                //将在后续版本修复
+                for(int i = 0; i < n; i++){
+                        Pass.infoList.addPlayerLevel(p.getName());
+                }
+                p.sendTitle("已跳过 "+ n +" 个任务","当前等级："+ Pass.infoList.getPlayerLevel(p.getName()));
+        }
+
         public void check(CommandSender sender){
                 list.forEach((name,pinfo)->{
                         sender.sendMessage("-------------playerInfoList-------------");
@@ -73,7 +90,7 @@ public class PlayerInfoList {
                 });
         }
 
-        public static void showTask(Player p, int page) {
+        public void showTask(Player p, int page) {
                 HashMap<String, task> task = Pass.taskList.list;
                 Inventory inv = Bukkit.createInventory(p, 6 * 9, "TaskList");
                 ItemStack Locked = util.newItem(Material.STAINED_GLASS_PANE, 14, "Locked");
@@ -84,9 +101,7 @@ public class PlayerInfoList {
                 int level = Pass.infoList.getPlayerLevel(p.getName()); //36
                 int stateLine = ((level - 1) / 9 + 1); //4
                 int maxLine = (task.size() - page * 36) / 9 + 1;
-                //page = 0
-                int i = 0, j = 0, l = 0;
-                p.sendMessage("" + stateLine + maxLine);
+                int i = 0, j, l = 0;
                 if(stateLine > 4 + page * 4){
                         for(int k = 36; k < 45; k++) inv.setItem(k, Passed);
                 }
@@ -120,14 +135,11 @@ public class PlayerInfoList {
                         if(l == 4) break;
                         if(page * 4 + i != stateLine) {
                                 for (j = 0; j < 9 && page * 36 + (j + 9 * l) + 1 <= task.size(); j++) {
-                                        p.sendMessage("task");
                                         ItemStack logo = task.get(String.valueOf(page * 36 + l * 9 + j + 1)).logo;
                                         inv.setItem(i * 9 + j, logo);
-                                        p.sendMessage("task__");
                                 }
                                 l++;
                         }
-                        p.sendMessage("i++" + i);
                         i++;
                 }
                 if(page != 0) inv.setItem(45, Last);
