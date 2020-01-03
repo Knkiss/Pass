@@ -1,6 +1,10 @@
 package knkiss.cn;
 
+import knkiss.cn.task.collectTask;
+import knkiss.cn.task.craftTask;
+import knkiss.cn.task.task;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -12,7 +16,7 @@ import java.util.regex.Pattern;
 @SuppressWarnings("deprecation")
 public class TaskList {
     public static int amount = 0;
-    public HashMap<String,Task> list = new HashMap<>();
+    public HashMap<String, task> list = new HashMap<>();
 
     TaskList(){
 
@@ -27,18 +31,24 @@ public class TaskList {
                 if(list.containsKey(String.valueOf(num))){
                     Pass.log.warning("存在多个相同level="+num+"的任务");
                 }else{
-                    list.put(String.valueOf(num),new Task(path));
+
+                    if(Pass.config.getString(path+".type").equalsIgnoreCase("collect")) list.put(String.valueOf(num),new collectTask(path));
+                    if(Pass.config.getString(path+".type").equalsIgnoreCase("craft")) list.put(String.valueOf(num),new craftTask(path));
                     amount ++;
                 }
             }
         });
-        for(int i=amount+1;i<=60;i++){
-            list.put(String.valueOf(i),new Task(i));
-            amount++;
-        }
     }
 
-    public Task getTask(int level){
+    public boolean canFinish(Player p){
+        return getTask(Pass.infoList.getPlayerLevel(p.getName())).canFinish(p);
+    }
+
+    public void Finish(Player p){
+        getTask(Pass.infoList.getPlayerLevel(p.getName())).Finish(p);
+    }
+
+    public task getTask(int level){
         return list.get(String.valueOf(level));
     }
 

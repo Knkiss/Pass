@@ -12,13 +12,13 @@ task:
       - 17-0-10
     reward:
       - 264-0-1
-  break1:
+  craft1:
     level: 2
-    type: break
+    type: craft
     info:
-      name: 新手破坏-1个工作台
+      name: 新手合成-1个工作台
       lore:
-        - 这是一个破坏任务
+        - 这是一个合成任务
         - 合成任务自动检测完成
       item: 58-0-1
     craft:

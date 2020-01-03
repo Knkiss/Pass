@@ -41,8 +41,8 @@ public class InventoryListener implements Listener {
                 } else if (index == 45 || index == 53) {//翻页
                     PlayerInfoList.showTask(p, Integer.parseInt(e.getCurrentItem().getItemMeta().getLore().get(0)));
                 } else {
-                    if (Pass.infoList.canFinish(p)) {
-                        Pass.infoList.Finish(p);
+                    if(Pass.taskList.canFinish(p)){
+                        Pass.taskList.Finish(p);
                     }
                 }
             }

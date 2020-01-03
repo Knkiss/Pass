@@ -25,8 +25,8 @@ public class passCommand implements CommandExecutor {
             //pass finish
             if(!(sender instanceof Player)) return false;
             Player p = (Player)sender;
-            if(Pass.infoList.canFinish(p)){
-                Pass.infoList.Finish(p);
+            if(Pass.taskList.canFinish(p)){
+                Pass.taskList.Finish(p);
             }
         }else if(args[0].equalsIgnoreCase("reward")){
             //pass finish

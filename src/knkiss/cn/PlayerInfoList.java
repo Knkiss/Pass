@@ -1,5 +1,7 @@
 package knkiss.cn;
 
+import knkiss.cn.task.craftTask;
+import knkiss.cn.task.task;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -37,6 +39,12 @@ public class PlayerInfoList {
                 int level = list.get(name).level + 1;
                 if (level == maxLevel) level = 1;
                 list.get(name).level = level;
+                if(Pass.taskList.list.containsKey(String.valueOf(level))){
+                        if(Pass.taskList.getTask(level).type.equalsIgnoreCase("craft")){
+                                list.get(name).craft = ((craftTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).craft;
+                                Pass.config.set("player."+name+".craft",list.get(name).craft);
+                        }
+                }
                 list.get(name).updateConfig();
         }
 
@@ -56,79 +64,17 @@ public class PlayerInfoList {
                 return true;
         }
 
-        public boolean canFinish(Player p){
-                if (TaskList.amount < Pass.infoList.getPlayerLevel(p.getName())){
-                        p.sendMessage("您已到达当前任务等级上限");
-                        return false;
-                }
-                Task task = Pass.taskList.list.get(String.valueOf(Pass.infoList.getPlayerLevel(p.getName())));
-                if (!task.enable){
-                        p.sendMessage("下个任务还未开启，请等待任务开启");
-                        return false;
-                }
-                if (task.type.equalsIgnoreCase("collect")){
-                        int ts = 1;
-                        for (ItemStack item : task.submit) {
-                                int n = item.getAmount();
-                                for (int i = 0; i < 36 && n != 0; i++) {
-                                        if (p.getInventory().getItem(i) == null) continue;
-                                        if (p.getInventory().getItem(i).getTypeId() == (item.getTypeId())) {
-                                                if (p.getInventory().getItem(i).getAmount() >= n) {
-                                                        n = 0;
-                                                        break;
-                                                }else{
-                                                        n = n - p.getInventory().getItem(i).getAmount();
-                                                }
-                                        }
-                                }
-                                if (n != 0) ts = 0;
-                        }
-                        if(ts == 0) {
-                                p.sendMessage("不满足任务条件，无法完成任务");
-                                return false;
-                        }else {
-                                return true;
-                        }
-                }else if (task.type.equalsIgnoreCase("break")){
-
-                }
-                return false;
-        }
-
-        public void Finish(Player p){
-                for (ItemStack item : Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).submit) {
-                        int n = item.getAmount();
-                        for (int i = 0; i < 36 && n != 0; i++) {
-                                if(p.getInventory().getItem(i) == null) continue;
-                                ItemStack is = p.getInventory().getItem(i);
-                                if (is.getTypeId() != item.getTypeId() || is.getDurability() != item.getDurability()) continue;
-                                int amounts = is.getAmount();
-                                if (amounts >= n) {
-                                        p.getInventory().getItem(i).setAmount(amounts - n);
-                                        break;
-                                }else{
-                                        n = n - amounts;
-                                        p.getInventory().getItem(i).setAmount(0);
-                                }
-                        }
-                }
-                list.get(p.getName().toLowerCase()).addReward(Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).reward);
-                Pass.infoList.addPlayerLevel(p.getName());
-                p.sendMessage("任务完成，你的当前等级为："+Pass.infoList.getPlayerLevel(p.getName()));
-                p.sendMessage("已将奖励存储到奖励箱,/pass reward查看");
-                Pass.infoList.showTask(p);
-        }
-
         public void check(CommandSender sender){
                 list.forEach((name,pinfo)->{
                         sender.sendMessage("-------------playerInfoList-------------");
                         sender.sendMessage("name:" + name + "  level:" + pinfo.level);
                         sender.sendMessage("reward:" + pinfo.reward.toString());
+                        sender.sendMessage("craft:" + pinfo.craft.toString());
                 });
         }
 
         public static void showTask(Player p, int page) {
-                HashMap<String, Task> task = Pass.taskList.list;
+                HashMap<String, task> task = Pass.taskList.list;
                 Inventory inv = Bukkit.createInventory(p, 6 * 9, "TaskList");
                 ItemStack Locked = util.newItem(Material.STAINED_GLASS_PANE, 14, "Locked");
                 ItemStack Doing = util.newItem(Material.STAINED_GLASS_PANE, 4, "Doing");
