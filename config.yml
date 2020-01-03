@@ -25,7 +25,17 @@ task:
       - 58-0-1
     reward:
       - 265-0-16
-
+  disable1:
+    level: 3
+    type: disable
+    info:
+      name: 关闭的任务
+      lore:
+        - 这个任务是关闭的
+        - 不可完成
+      item: 58-0-1
+    reward:
+      - 265-0-16
 player:
   knkiss:
     level: 1

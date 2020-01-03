@@ -64,6 +64,14 @@ public class PlayerInfoList {
                 return true;
         }
 
+        public int canBS(Player p, int n){
+                if(Pass.infoList.getPlayerLevel(p.getName()) + n > Pass.taskList.list.size() + 1) return 1;
+                for(int i = 0; i < n; i++){
+                        if(!Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName()) + i).enable) return 2;
+                }
+                return 0;
+        }
+
         public void buyLevel(Player p,int n) {
                 //将在后续版本修复
                 for(int i = 0; i < n; i++){
