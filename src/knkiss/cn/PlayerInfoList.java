@@ -2,6 +2,7 @@ package knkiss.cn;
 
 import knkiss.cn.task.craftTask;
 import knkiss.cn.task.killTask;
+import knkiss.cn.task.locationTask;
 import knkiss.cn.task.task;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -44,10 +45,12 @@ public class PlayerInfoList {
                         if(Pass.taskList.getTask(level).type.equalsIgnoreCase("craft")){
                                 list.get(name).craft = ((craftTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).craft;
                                 Pass.config.set("player."+name+".craft",list.get(name).craft);
-                        }
-                        if(Pass.taskList.getTask(level).type.equalsIgnoreCase("kill")){
+                        }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("kill")){
                                 list.get(name).kill = ((killTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).kill;
                                 Pass.config.set("player."+name+".kill",list.get(name).kill);
+                        }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("location")){
+                                list.get(name).location = ((locationTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).location;
+                                Pass.config.set("player."+name+".location",list.get(name).location);
                         }
                 }
                 list.get(name).updateConfig();
@@ -101,6 +104,7 @@ public class PlayerInfoList {
                         sender.sendMessage("reward:" + pinfo.reward.toString());
                         sender.sendMessage("craft:" + pinfo.craft.toString());
                         sender.sendMessage("kill:" + pinfo.kill.toString());
+                        sender.sendMessage("location:" + pinfo.location.toString());
                 });
         }
 
@@ -142,8 +146,9 @@ public class PlayerInfoList {
                                                         inv.setItem((stateLine - page * 4) * 9 + k, Locked);
                                                 }
                                         }
-                                        if(inv.getItem((stateLine - page * 4) * 9 + n) == null)
-                                                inv.setItem((stateLine - page * 4) * 9 + n, Doing);
+                                        int i1 = (stateLine - page * 4) * 9 + n;
+                                        if(inv.getItem(i1) == null)
+                                                inv.setItem(i1, Doing);
                                 }
                         }
                         if(l == 4) break;

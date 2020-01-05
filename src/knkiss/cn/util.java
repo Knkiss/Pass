@@ -1,9 +1,7 @@
 package knkiss.cn;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -73,4 +71,6 @@ public class util {
         if(ac.equals(InventoryAction.CLONE_STACK))return false;
         return !ac.equals(InventoryAction.COLLECT_TO_CURSOR);
     }
+
+
 }

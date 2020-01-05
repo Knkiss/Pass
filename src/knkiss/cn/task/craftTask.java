@@ -1,10 +1,8 @@
 package knkiss.cn.task;
 
 import knkiss.cn.Pass;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -51,5 +49,11 @@ public class craftTask extends task{
         Pass.infoList.list.get(p.getName().toLowerCase()).addReward(this.reward);
         Pass.infoList.addPlayerLevel(p.getName());
         p.sendTitle("任务完成！","当前等级："+ Pass.infoList.getPlayerLevel(p.getName())+" 已将奖励存储到奖励箱");
+    }
+
+    @Override
+    public void sendToPlayer(CommandSender sender) {
+        super.sendToPlayerSuper(sender);
+        sender.sendMessage("Craft: " + craft.toString());
     }
 }

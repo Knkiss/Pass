@@ -2,6 +2,9 @@ package knkiss.cn;
 
 import knkiss.cn.task.craftTask;
 import knkiss.cn.task.killTask;
+import knkiss.cn.task.locationTask;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,6 +23,7 @@ public class PlayerInfo {
     public List<String> rewardStr = new ArrayList<>();
     public List<ItemStack> craft = new ArrayList<>();
     public List<EntityType> kill = new ArrayList<>();
+    public List<Location> location = new ArrayList<>();
 
     PlayerInfo(String name){
         this.path = "player."+name;
@@ -59,10 +63,10 @@ public class PlayerInfo {
             }
         }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("kill")){
             if(Pass.config.contains(path+".kill")){
-                for(String item:Pass.config.getStringList(path+".kill")){
+                for(String entity:Pass.config.getStringList(path+".kill")){
                     String pattern = "(.*)-(.*)";
                     Pattern r = Pattern.compile(pattern);
-                    Matcher m1 = r.matcher(item);
+                    Matcher m1 = r.matcher(entity);
                     if(m1.find()){
                         int typeID = Integer.parseInt(m1.group(1));
                         int number = Integer.parseInt(m1.group(2));
@@ -73,6 +77,27 @@ public class PlayerInfo {
                 }
             }else{
                 this.kill = ((killTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).kill;
+            }
+        }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("location")){
+            if(Pass.config.contains(path+".location")){
+                for(String locate:Pass.config.getStringList(path+".location")){
+                    String pattern = "(.*)-(.*)-(.*)-(.*)";
+                    Pattern r = Pattern.compile(pattern);
+                    Matcher m1 = r.matcher(locate);
+                    if(m1.find()){
+                        int x = Integer.parseInt(m1.group(1));
+                        int y = Integer.parseInt(m1.group(2));
+                        int z = Integer.parseInt(m1.group(3));
+                        String world = m1.group(4);
+                        if(Bukkit.getWorld(world) == null){
+                            location.add(new Location(Bukkit.getWorlds().get(0),x,y,z));
+                        }else{
+                            location.add(new Location(Bukkit.getWorld(world),x,y,z));
+                        }
+                    }
+                }
+            }else{
+                this.location = ((locationTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).location;
             }
         }
         updateConfig();
@@ -131,5 +156,10 @@ public class PlayerInfo {
         });
         killList.forEach((typeID,number)-> killStr.add(typeID+"-"+number));
         Pass.config.set(path+".kill",killStr);
+
+
+        List<String> locationStr = new ArrayList<>();
+        location.forEach(locate-> locationStr.add((int)locate.getX()+"-"+(int)locate.getY()+"-"+(int)locate.getZ()+"-"+locate.getWorld().getName()));
+        Pass.config.set(path+".location",locationStr);
     }
 }

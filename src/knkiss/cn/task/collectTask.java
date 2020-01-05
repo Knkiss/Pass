@@ -1,6 +1,7 @@
 package knkiss.cn.task;
 
 import knkiss.cn.Pass;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -86,5 +87,11 @@ public class collectTask extends task{
         Pass.infoList.list.get(p.getName().toLowerCase()).addReward(this.reward);
         Pass.infoList.addPlayerLevel(p.getName());
         p.sendTitle("任务完成！","当前等级："+ Pass.infoList.getPlayerLevel(p.getName())+" 已将奖励存储到奖励箱");
+    }
+
+    @Override
+    public void sendToPlayer(CommandSender sender) {
+        super.sendToPlayerSuper(sender);
+        sender.sendMessage("Submit: " + submit.toString());
     }
 }

@@ -1,18 +1,13 @@
 package knkiss.cn.Listener;
 
 import knkiss.cn.Pass;
-import knkiss.cn.PlayerInfoList;
 import knkiss.cn.util;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
 
 public class InventoryListener implements Listener {
     @EventHandler

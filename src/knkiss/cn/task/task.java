@@ -3,6 +3,7 @@ package knkiss.cn.task;
 import knkiss.cn.Pass;
 import knkiss.cn.util;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -60,4 +61,13 @@ public abstract class task {
 
     public abstract boolean canFinish(Player p);
     public abstract void Finish(Player p);
+    public abstract void sendToPlayer(CommandSender sender);
+    public void sendToPlayerSuper(CommandSender sender){
+        sender.sendMessage("-------------TaskList-------------------");
+        sender.sendMessage("level:" + level+"  type:" + type);
+        sender.sendMessage("name:" + logo.getItemMeta().getDisplayName());
+        sender.sendMessage("lore:" + logo.getItemMeta().getLore().toString());
+        sender.sendMessage("logo: ID:" + logo.getTypeId() +" Damage:"+logo.getDurability()+" Amount:"+logo.getAmount());
+        sender.sendMessage("Enable:" + enable);
+    }
 }

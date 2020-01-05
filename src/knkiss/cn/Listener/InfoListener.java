@@ -1,18 +1,19 @@
 package knkiss.cn.Listener;
 
 import knkiss.cn.Pass;
-import knkiss.cn.PlayerInfo;
-import knkiss.cn.task.craftTask;
 import knkiss.cn.util;
+import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -72,9 +73,41 @@ public class InfoListener implements Listener {
         Player p = (Player) e.getDamager();
         if(!Pass.taskList.list.containsKey(String.valueOf(Pass.infoList.getPlayerLevel(p.getName()))))return;
         if(!Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).type.equalsIgnoreCase("kill"))return;
-        Pass.infoList.getPlayerInfo(p).kill.remove(e.getEntityType());
+        List<EntityType> killList = Pass.infoList.getPlayerInfo(p).kill;
+        killList.remove(e.getEntityType());
+        if(killList.isEmpty()){
+            if(Pass.taskList.canFinish(p)){
+                Pass.taskList.Finish(p);
+            }
+            return;
+        }
+        Pass.infoList.getPlayerInfo(p).kill = killList;
         Pass.infoList.getPlayerInfo(p).updateConfig();
-        if(Pass.infoList.getPlayerInfo(p).kill.isEmpty()){
+    }
+
+    @EventHandler
+    public void onMarkLocation(PlayerInteractEvent e){
+        if(e.getPlayer().getInventory().getItemInMainHand().getTypeId()!=259)return;
+        if(!e.getAction().equals(Action.RIGHT_CLICK_BLOCK))return;
+        Player p = e.getPlayer();
+        if(!Pass.taskList.list.containsKey(String.valueOf(Pass.infoList.getPlayerLevel(p.getName()))))return;
+        if(!Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).type.equalsIgnoreCase("location"))return;
+        List<Location> last = new ArrayList<>();
+        Pass.infoList.getPlayerInfo(p).location.forEach(location -> {
+            if(location.getWorld().equals(p.getWorld())){
+                double dx = location.getX() - p.getLocation().getX();
+                double dy = location.getY() - p.getLocation().getY();
+                double dz = location.getZ() - p.getLocation().getZ();
+                double r = Math.sqrt(dx*dx+dy*dy+dz*dz);
+                if(r >= 3) last.add(location);
+                else p.sendMessage("已成功标记此地点");
+            }else{
+                last.add(location);
+            }
+        });
+        Pass.infoList.getPlayerInfo(p).location = last;
+        Pass.infoList.getPlayerInfo(p).updateConfig();
+        if(last.isEmpty()){
             if(Pass.taskList.canFinish(p)){
                 Pass.taskList.Finish(p);
             }

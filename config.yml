@@ -19,7 +19,7 @@ task:
       name: 新手合成-1个工作台
       lore:
         - 这是一个合成任务
-        - 合成任务自动检测完成
+        - 自动检测完成
       item: 58-0-1
     craft:
       - 58-0-1
@@ -32,7 +32,7 @@ task:
       name: 新手击杀-1个僵尸
       lore:
         - 这是一个击杀任务
-        - 击杀任务自动检测完成
+        - 自动检测完成
       item: 3-0-1
     kill:
     - 54-2
@@ -40,6 +40,22 @@ task:
     - 51-5
     reward:
       - 266-0-10
+  location1:
+    level: 4
+    type: location
+    info:
+      name: 新手抵达-2个地点
+      lore:
+        - 这是一个抵达任务
+        - 抵达任务需在标记点使用打火石点火
+        - 自动检测完成
+      item: 4-0-1
+    location:
+      - 550-68-381-World
+      - 532-69-380-World
+    reward:
+      - 265-0-10
+
 player:
   knkiss:
     level: 1
