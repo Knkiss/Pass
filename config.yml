@@ -6,7 +6,7 @@ task:
       name: 新手收集-10个橡木
       lore:
         - 这是一个收集任务
-        - 新手任务都是很简单的任务
+        - 收集任务需要手动提交
       item: 17-0-10
     submit:
       - 17-0-10
@@ -25,17 +25,21 @@ task:
       - 58-0-1
     reward:
       - 265-0-16
-  disable1:
+  kill1:
     level: 3
-    type: disable
+    type: kill
     info:
-      name: 关闭的任务
+      name: 新手击杀-1个僵尸
       lore:
-        - 这个任务是关闭的
-        - 不可完成
-      item: 58-0-1
+        - 这是一个击杀任务
+        - 击杀任务自动检测完成
+      item: 3-0-1
+    kill:
+    - 54-2
+    - 52-1
+    - 51-5
     reward:
-      - 265-0-16
+      - 266-0-10
 player:
   knkiss:
     level: 1

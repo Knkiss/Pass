@@ -2,6 +2,7 @@ package knkiss.cn;
 
 import knkiss.cn.task.collectTask;
 import knkiss.cn.task.craftTask;
+import knkiss.cn.task.killTask;
 import knkiss.cn.task.task;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -30,9 +31,10 @@ public class TaskList {
                 if(list.containsKey(String.valueOf(num))){
                     Pass.log.warning("存在多个相同level="+num+"的任务");
                 }else{
-
-                    if(Pass.config.getString(path+".type").equalsIgnoreCase("collect")) list.put(String.valueOf(num),new collectTask(path));
-                    if(Pass.config.getString(path+".type").equalsIgnoreCase("craft")) list.put(String.valueOf(num),new craftTask(path));
+                    String type = Pass.config.getString(path+".type");
+                    if(type.equalsIgnoreCase("collect")) list.put(String.valueOf(num),new collectTask(path));
+                    if(type.equalsIgnoreCase("craft")) list.put(String.valueOf(num),new craftTask(path));
+                    if(type.equalsIgnoreCase("kill")) list.put(String.valueOf(num),new killTask(path));
                     amount ++;
                 }
             }
