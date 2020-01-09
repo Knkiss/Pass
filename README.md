@@ -7,5 +7,6 @@
 * `0.1.3` 增加击杀怪物类任务
 * `0.1.4` 增加地图标记类任务
 
-Dnkiss Link Test
-Knkiss Link Test
+### 成员
+* ###### Dnkiss
+* ###### Knkiss
