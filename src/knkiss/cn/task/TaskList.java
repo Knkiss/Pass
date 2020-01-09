@@ -1,6 +1,6 @@
-package knkiss.cn;
+package knkiss.cn.task;
 
-import knkiss.cn.task.*;
+import knkiss.cn.Pass;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 
 public class TaskList {
     public static int amount = 0;
-    public HashMap<String, task> list = new HashMap<>();
+    public HashMap<String, Task> list = new HashMap<>();
 
-    TaskList(){
+    public TaskList(){
         Set<String> keys= Pass.config.getKeys(true);
         String pattern = "(task..*).level";
         Pattern r = Pattern.compile(pattern);
@@ -52,7 +52,7 @@ public class TaskList {
         getTask(Pass.infoList.getPlayerLevel(p.getName())).Finish(p);
     }
 
-    public task getTask(int level){
+    public Task getTask(int level){
         return list.get(String.valueOf(level));
     }
 

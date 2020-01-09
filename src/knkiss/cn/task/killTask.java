@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
-public class killTask extends task {
+public class killTask extends Task {
 
     public List<EntityType> kill = new ArrayList<>();
 

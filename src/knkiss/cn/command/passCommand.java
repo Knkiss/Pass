@@ -1,7 +1,7 @@
-package knkiss.cn.Command;
+package knkiss.cn.command;
 
 import knkiss.cn.Pass;
-import knkiss.cn.PlayerInfoList;
+import knkiss.cn.player.PlayerInfoList;
 import knkiss.cn.util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

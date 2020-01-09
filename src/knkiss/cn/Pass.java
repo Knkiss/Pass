@@ -1,8 +1,10 @@
 package knkiss.cn;
 
-import knkiss.cn.Command.passCommand;
-import knkiss.cn.Listener.InfoListener;
-import knkiss.cn.Listener.InventoryListener;
+import knkiss.cn.command.passCommand;
+import knkiss.cn.listener.InfoListener;
+import knkiss.cn.listener.InventoryListener;
+import knkiss.cn.player.PlayerInfoList;
+import knkiss.cn.task.TaskList;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;

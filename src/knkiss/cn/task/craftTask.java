@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
-public class craftTask extends task{
+public class craftTask extends Task {
     public List<ItemStack> craft = new ArrayList<>();
 
     public craftTask(String path) {

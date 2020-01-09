@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
-public abstract class task {
+public abstract class Task {
     public String path;
     public int level;
     public String type;
@@ -21,7 +21,7 @@ public abstract class task {
     public boolean enable = true;
     public List<ItemStack> reward = new ArrayList<>();
 
-    public task(String path){
+    public Task(String path){
         try{
             this.path = path;
             this.level = Pass.config.getInt(path +".level");

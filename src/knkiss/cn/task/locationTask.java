@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
-public class locationTask extends task {
+public class locationTask extends Task {
 
     public List<Location> location = new ArrayList<>();
 

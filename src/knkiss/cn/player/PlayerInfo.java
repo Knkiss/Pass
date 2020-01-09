@@ -1,5 +1,6 @@
-package knkiss.cn;
+package knkiss.cn.player;
 
+import knkiss.cn.Pass;
 import knkiss.cn.task.craftTask;
 import knkiss.cn.task.killTask;
 import knkiss.cn.task.locationTask;

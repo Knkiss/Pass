@@ -1,9 +1,11 @@
-package knkiss.cn;
+package knkiss.cn.player;
 
+import knkiss.cn.Pass;
 import knkiss.cn.task.craftTask;
 import knkiss.cn.task.killTask;
 import knkiss.cn.task.locationTask;
-import knkiss.cn.task.task;
+import knkiss.cn.task.Task;
+import knkiss.cn.util;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -19,7 +21,7 @@ public class PlayerInfoList {
         public static int maxLevel = 100;
         public HashMap<String, PlayerInfo> list = new HashMap<>();
 
-        PlayerInfoList(){
+        public PlayerInfoList(){
                 maxLevel = Pass.config.getInt("settings.maxlevel");
         }
 
@@ -109,7 +111,7 @@ public class PlayerInfoList {
         }
 
         public void showTask(Player p, int page) {
-                HashMap<String, task> task = Pass.taskList.list;
+                HashMap<String, Task> task = Pass.taskList.list;
                 Inventory inv = Bukkit.createInventory(p, 6 * 9, "TaskList");
                 ItemStack Locked = util.newItem(Material.STAINED_GLASS_PANE, 14, "Locked");
                 ItemStack Doing = util.newItem(Material.STAINED_GLASS_PANE, 4, "Doing");
