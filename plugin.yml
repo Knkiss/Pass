@@ -1,9 +1,9 @@
 name: Pass
 main: knkiss.cn.Pass
-version: 0.1.6
-authors: [Knkiss, Lundup536]
+version: 0.1.7
+authors: [Knkiss, Dnkiss]
 
 commands:
   pass:
     description: 一起来做任务吧
-    usage: /pass help/?
+    usage: /pass help

@@ -13,7 +13,6 @@ public class passCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(args.length==0)return false;
-
         if(args[0].equalsIgnoreCase("me")){
             //pass me
             if(!(sender instanceof Player)) return false;
@@ -33,6 +32,10 @@ public class passCommand implements CommandExecutor {
             if(!(sender instanceof Player)) return false;
             Pass.infoList.showReward((Player)sender);
         }else if(args[0].equalsIgnoreCase("check")){
+            if(!sender.hasPermission("Pass.check")){
+                sender.sendMessage("你没有[Pass.check]权限");
+                return true;
+            }
             //pass check [task/player]
             if (args.length == 1){
                 Pass.infoList.check(sender);
@@ -47,6 +50,10 @@ public class passCommand implements CommandExecutor {
                 }
             }
         }else if(args[0].equalsIgnoreCase("set")){
+            if(!sender.hasPermission("Pass.set")){
+                sender.sendMessage("你没有[Pass.set]权限");
+                return true;
+            }
             //pass set <name> <number>
             if (args.length == 3){
                 if(util.canParseInt(args[2])){
@@ -64,6 +71,10 @@ public class passCommand implements CommandExecutor {
                 sender.sendMessage("/pass set <name> <number>");
             }
         }else if(args[0].equalsIgnoreCase("buy")){
+            if(!sender.hasPermission("Pass.buy")){
+                sender.sendMessage("你没有[Pass.buy]权限");
+                return true;
+            }
             if(!(sender instanceof Player))return false;
             Player p = (Player) sender;
             //pass buy <number>
@@ -78,6 +89,10 @@ public class passCommand implements CommandExecutor {
                 if (!util.canParseInt(args[1])) sender.sendMessage("/pass buy <number> number必须为整数");
             }  if (args.length != 2) sender.sendMessage("/pass buy <number>");
         }else if(args[0].equalsIgnoreCase("skip")) {
+            if(!sender.hasPermission("Pass.skip")){
+                sender.sendMessage("你没有[Pass.skip]权限");
+                return true;
+            }
             if(!(sender instanceof Player))return false;
             Player p = (Player) sender;
             //pass skip <number>
@@ -92,8 +107,9 @@ public class passCommand implements CommandExecutor {
                 if (!util.canParseInt(args[1])) sender.sendMessage("/pass skip <number> number必须为整数");
             } if (args.length != 2) sender.sendMessage("/pass skip <number>");
         }else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")){
-            //pass help/?
-            sender.sendMessage("/pass help/? - 查看帮助");
+            //pass help
+            sender.sendMessage("---------------------Pass 通行证---------------------------");
+            sender.sendMessage("/pass help - 查看帮助");
             sender.sendMessage("/pass me - 查看自己的任务表");
             sender.sendMessage("/pass finish - 完成当前任务");
             sender.sendMessage("/pass reward - 查看自己的奖励箱");

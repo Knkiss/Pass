@@ -6,7 +6,8 @@ task:
       name: 新手收集-10个橡木
       lore:
         - 这是一个收集任务
-        - 收集任务需要手动提交
+        - 可通过指令或者任务列表提交
+        - 从下文开始所有的x-x-x表示[物品ID-耐久-数量]
       item: 17-0-10
     submit:
       - 17-0-10
@@ -33,11 +34,12 @@ task:
       lore:
         - 这是一个击杀任务
         - 自动检测完成
+        - 下文的X-X表示[怪物ID-数量]
+        - 怪物ID可通过压缩包内help.md文件查看
+        - 后续会增加可视化编辑
       item: 3-0-1
     kill:
     - 54-2
-    - 52-1
-    - 51-5
     reward:
       - 266-0-10
   location1:
@@ -48,7 +50,8 @@ task:
       lore:
         - 这是一个抵达任务
         - 抵达任务需在标记点使用打火石点火
-        - 自动检测完成
+        - 下文X-X-X-X表示[X-Y-Z-世界]
+        - 世界的名字随便写代表主世界
       item: 4-0-1
     location:
       - 550-68-381-World
@@ -56,10 +59,6 @@ task:
     reward:
       - 265-0-10
 
-player:
-  knkiss:
-    level: 1
-
 settings:
-  maxlevel: 100
-  saveTiming: 60
+  maxlevel: 100 #尽量与任务数量匹配
+  saveTiming: 60 #保存一次玩家数据间隔时间，内存占用很小
