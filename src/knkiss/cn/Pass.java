@@ -1,6 +1,8 @@
 package knkiss.cn;
 
-import knkiss.cn.command.passCommand;
+import knkiss.cn.command.TestCommand;
+import knkiss.cn.command.PassCommand;
+import knkiss.cn.effect.Particle;
 import knkiss.cn.listener.InfoListener;
 import knkiss.cn.listener.InventoryListener;
 import knkiss.cn.player.PlayerInfoList;
@@ -17,6 +19,7 @@ public class Pass extends JavaPlugin implements Listener {
     public static FileConfiguration config;
     public static PlayerInfoList infoList;
     public static TaskList taskList;
+    public static Particle particle;
     public static Logger log;
 
     @Override
@@ -35,7 +38,8 @@ public class Pass extends JavaPlugin implements Listener {
         log = this.getLogger();
         Bukkit.getPluginManager().registerEvents(new InfoListener(),this);
         Bukkit.getPluginManager().registerEvents(new InventoryListener(),this);
-        Bukkit.getPluginCommand("pass").setExecutor(new passCommand());
+        Bukkit.getPluginCommand("pass").setExecutor(new PassCommand());
+        Bukkit.getPluginCommand("test").setExecutor(new TestCommand());
         saveDefaultConfig();
         config = this.getConfig();
         infoList = new PlayerInfoList();
@@ -47,5 +51,7 @@ public class Pass extends JavaPlugin implements Listener {
                 saveConfig();
             }
         }.runTaskTimerAsynchronously(this,0,config.getInt("settings.saveTiming")*20);
+
+        particle= new Particle(this);
     }
 }

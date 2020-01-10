@@ -11,11 +11,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
-public class killTask extends Task {
+public class KillTask extends Task {
 
     public List<EntityType> kill = new ArrayList<>();
 
-    public killTask(String path) {
+    public KillTask(String path) {
         super(path);
         try{
             List<String> craft_item = Pass.config.getStringList(path+".kill");

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public class util {
+public class Util {
     public static ItemStack newItem(int ID, int amount, int Durability, String name, List<String> lore)
     {
         ItemStack i = new ItemStack(ID,amount,(short)Durability);

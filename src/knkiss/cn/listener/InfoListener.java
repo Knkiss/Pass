@@ -1,7 +1,7 @@
 package knkiss.cn.listener;
 
 import knkiss.cn.Pass;
-import knkiss.cn.util;
+import knkiss.cn.Util;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -31,7 +31,7 @@ public class InfoListener implements Listener {
     public void onCraftItem(InventoryClickEvent e){
         if(!e.getSlotType().equals(InventoryType.SlotType.RESULT)) return;
         if(e.getAction().equals(InventoryAction.NOTHING))return;
-        if(!util.isCraftAction(e.getAction()))return;
+        if(!Util.isCraftAction(e.getAction()))return;
         if(e.getCurrentItem()==null)return;
 
         Player p = (Player) e.getWhoClicked();

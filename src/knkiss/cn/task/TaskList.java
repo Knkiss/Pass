@@ -26,10 +26,10 @@ public class TaskList {
                     Pass.log.warning("存在多个相同level="+num+"的任务");
                 }else{
                     String type = Pass.config.getString(path+".type");
-                    if(type.equalsIgnoreCase("collect")) list.put(String.valueOf(num),new collectTask(path));
-                    if(type.equalsIgnoreCase("craft")) list.put(String.valueOf(num),new craftTask(path));
-                    if(type.equalsIgnoreCase("kill")) list.put(String.valueOf(num),new killTask(path));
-                    if(type.equalsIgnoreCase("location")) list.put(String.valueOf(num),new locationTask(path));
+                    if(type.equalsIgnoreCase("collect")) list.put(String.valueOf(num),new CollectTask(path));
+                    if(type.equalsIgnoreCase("craft")) list.put(String.valueOf(num),new CraftTask(path));
+                    if(type.equalsIgnoreCase("kill")) list.put(String.valueOf(num),new KillTask(path));
+                    if(type.equalsIgnoreCase("location")) list.put(String.valueOf(num),new LocationTask(path));
                     amount ++;
                 }
             }

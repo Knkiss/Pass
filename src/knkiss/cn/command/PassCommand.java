@@ -2,13 +2,13 @@ package knkiss.cn.command;
 
 import knkiss.cn.Pass;
 import knkiss.cn.player.PlayerInfoList;
-import knkiss.cn.util;
+import knkiss.cn.Util;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class passCommand implements CommandExecutor {
+public class PassCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -56,7 +56,7 @@ public class passCommand implements CommandExecutor {
             }
             //pass set <name> <number>
             if (args.length == 3){
-                if(util.canParseInt(args[2])){
+                if(Util.canParseInt(args[2])){
                     int level = Integer.parseInt(args[2]);
                     if(!Pass.infoList.setPlayerLevel(args[1],level)){
                         sender.sendMessage("不存在 "+ args[1] +" 玩家");
@@ -79,14 +79,14 @@ public class passCommand implements CommandExecutor {
             Player p = (Player) sender;
             //pass buy <number>
             if (args.length == 2) {
-                if (util.canParseInt(args[1])) {
+                if (Util.canParseInt(args[1])) {
                     int i = Pass.infoList.canBS(p, Integer.parseInt(args[1]));
                     if (i == 0)
                         Pass.infoList.buyLevel(p, Integer.parseInt(args[1]));
                     if (i == 1) sender.sendMessage("购买后等级超出上限");
                     if (i == 2) sender.sendMessage("购买任务中含 不可完成/有错误 的任务");
                 }
-                if (!util.canParseInt(args[1])) sender.sendMessage("/pass buy <number> number必须为整数");
+                if (!Util.canParseInt(args[1])) sender.sendMessage("/pass buy <number> number必须为整数");
             }  if (args.length != 2) sender.sendMessage("/pass buy <number>");
         }else if(args[0].equalsIgnoreCase("skip")) {
             if(!sender.hasPermission("Pass.skip")){
@@ -97,14 +97,14 @@ public class passCommand implements CommandExecutor {
             Player p = (Player) sender;
             //pass skip <number>
             if (args.length == 2) {
-                if (util.canParseInt(args[1])) {
+                if (Util.canParseInt(args[1])) {
                     int i = Pass.infoList.canBS(p, Integer.parseInt(args[1]));
                     if (i == 0)
                         Pass.infoList.skipLevel(p, Integer.parseInt(args[1]));
                     if (i == 1) sender.sendMessage("跳过后等级超出上限");
                     if (i == 2) sender.sendMessage("跳过任务中含 不可完成/有错误 的任务");
                 }
-                if (!util.canParseInt(args[1])) sender.sendMessage("/pass skip <number> number必须为整数");
+                if (!Util.canParseInt(args[1])) sender.sendMessage("/pass skip <number> number必须为整数");
             } if (args.length != 2) sender.sendMessage("/pass skip <number>");
         }else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")){
             //pass help

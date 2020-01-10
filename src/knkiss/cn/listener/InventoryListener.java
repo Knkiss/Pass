@@ -1,7 +1,7 @@
 package knkiss.cn.listener;
 
 import knkiss.cn.Pass;
-import knkiss.cn.util;
+import knkiss.cn.Util;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +17,7 @@ public class InventoryListener implements Listener {
             e.setCancelled(true);
             if (e.getCurrentItem() == null) return;
             if (!e.getAction().equals(InventoryAction.PICKUP_ALL)) return;
-            int i = e.getInventory().first(util.newItem(Material.STAINED_GLASS_PANE, 4, "Doing"));
+            int i = e.getInventory().first(Util.newItem(Material.STAINED_GLASS_PANE, 4, "Doing"));
             int index = e.getRawSlot();
             if (i == -1) {
                 //已完成或未进行的任务页面

@@ -1,10 +1,9 @@
 package knkiss.cn.task;
 
 import knkiss.cn.Pass;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,28 +11,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
-public class locationTask extends Task {
+public class CraftTask extends Task {
+    public List<ItemStack> craft = new ArrayList<>();
 
-    public List<Location> location = new ArrayList<>();
-
-    public locationTask(String path) {
+    public CraftTask(String path) {
         super(path);
         try{
-            List<String> craft_item = Pass.config.getStringList(path+".location");
-            String pattern = "(.*)-(.*)-(.*)-(.*)";
+            List<String> craft_item = Pass.config.getStringList(path+".craft");
+            String pattern = "(.*)-(.*)-(.*)";
             Pattern r = Pattern.compile(pattern);
             craft_item.forEach(str->{
                 Matcher m = r.matcher(str);
                 if(m.find()){
-                    int x = Integer.parseInt(m.group(1));
-                    int y = Integer.parseInt(m.group(2));
-                    int z = Integer.parseInt(m.group(3));
-                    String world = m.group(4);
-                    if(Bukkit.getWorld(world) == null){
-                        location.add(new Location(Bukkit.getWorlds().get(0),x,y,z));
-                    }else{
-                        location.add(new Location(Bukkit.getWorld(world),x,y,z));
-                    }
+                    int ID = Integer.parseInt(m.group(1));
+                    int Durability = Integer.parseInt(m.group(2));
+                    int amount = Integer.parseInt(m.group(3));
+                    craft.add(new ItemStack(ID,amount,(short)Durability));
                 }
             });
         }catch (Exception e){
@@ -44,10 +37,10 @@ public class locationTask extends Task {
 
     @Override
     public boolean canFinish(Player p) {
-        if(Pass.infoList.getPlayerInfo(p).location.isEmpty()){
+        if(Pass.infoList.getPlayerInfo(p).craft.isEmpty()){
             return true;
         }
-        p.sendMessage("还需抵达："+Pass.infoList.getPlayerInfo(p).location.toString());
+        p.sendMessage("还需制作："+Pass.infoList.getPlayerInfo(p).craft.toString());
         return false;
     }
 
@@ -61,7 +54,6 @@ public class locationTask extends Task {
     @Override
     public void sendToPlayer(CommandSender sender) {
         super.sendToPlayerSuper(sender);
-        sender.sendMessage("Location: " + location.toString());
+        sender.sendMessage("Craft: " + craft.toString());
     }
-
 }

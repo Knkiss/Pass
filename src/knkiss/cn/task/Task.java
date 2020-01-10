@@ -1,7 +1,7 @@
 package knkiss.cn.task;
 
 import knkiss.cn.Pass;
-import knkiss.cn.util;
+import knkiss.cn.Util;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -38,9 +38,9 @@ public abstract class Task {
                 int amount = Integer.parseInt(m1.group(3));
                 String name = Pass.config.getString(path +".info.name");
                 List<String> lore = Pass.config.getStringList(path +".info.lore");
-                this.logo = util.newItem(ID,amount,Durability,name,lore);
+                this.logo = Util.newItem(ID,amount,Durability,name,lore);
             }else{
-                this.logo = util.newItem(Material.BOOK,0,"图标错误的任务");
+                this.logo = Util.newItem(Material.BOOK,0,"图标错误的任务");
             }
 
             List<String> reward_item = Pass.config.getStringList(path+".reward");

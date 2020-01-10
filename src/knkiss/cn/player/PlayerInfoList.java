@@ -1,11 +1,11 @@
 package knkiss.cn.player;
 
 import knkiss.cn.Pass;
-import knkiss.cn.task.craftTask;
-import knkiss.cn.task.killTask;
-import knkiss.cn.task.locationTask;
+import knkiss.cn.task.CraftTask;
+import knkiss.cn.task.KillTask;
+import knkiss.cn.task.LocationTask;
 import knkiss.cn.task.Task;
-import knkiss.cn.util;
+import knkiss.cn.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -45,13 +45,13 @@ public class PlayerInfoList {
                 list.get(name).level = level;
                 if(Pass.taskList.list.containsKey(String.valueOf(level))){
                         if(Pass.taskList.getTask(level).type.equalsIgnoreCase("craft")){
-                                list.get(name).craft = ((craftTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).craft;
+                                list.get(name).craft = ((CraftTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).craft;
                                 Pass.config.set("player."+name+".craft",list.get(name).craft);
                         }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("kill")){
-                                list.get(name).kill = ((killTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).kill;
+                                list.get(name).kill = ((KillTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).kill;
                                 Pass.config.set("player."+name+".kill",list.get(name).kill);
                         }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("location")){
-                                list.get(name).location = ((locationTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).location;
+                                list.get(name).location = ((LocationTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).location;
                                 Pass.config.set("player."+name+".location",list.get(name).location);
                         }
                 }
@@ -113,11 +113,11 @@ public class PlayerInfoList {
         public void showTask(Player p, int page) {
                 HashMap<String, Task> task = Pass.taskList.list;
                 Inventory inv = Bukkit.createInventory(p, 6 * 9, "TaskList");
-                ItemStack Locked = util.newItem(Material.STAINED_GLASS_PANE, 14, "Locked");
-                ItemStack Doing = util.newItem(Material.STAINED_GLASS_PANE, 4, "Doing");
-                ItemStack Passed = util.newItem(Material.STAINED_GLASS_PANE, 5, "Passed");
-                ItemStack Next = util.newItem(Material.PAPER, 0, "前往下一页",String.valueOf(page+1));
-                ItemStack Last = util.newItem(Material.PAPER, 0, "返回上一页",String.valueOf(page-1));
+                ItemStack Locked = Util.newItem(Material.STAINED_GLASS_PANE, 14, "Locked");
+                ItemStack Doing = Util.newItem(Material.STAINED_GLASS_PANE, 4, "Doing");
+                ItemStack Passed = Util.newItem(Material.STAINED_GLASS_PANE, 5, "Passed");
+                ItemStack Next = Util.newItem(Material.PAPER, 0, "前往下一页",String.valueOf(page+1));
+                ItemStack Last = Util.newItem(Material.PAPER, 0, "返回上一页",String.valueOf(page-1));
                 int level = Pass.infoList.getPlayerLevel(p.getName()); //36
                 int stateLine = ((level - 1) / 9 + 1); //4
                 int maxLine = (task.size() - page * 36) / 9 + 1;
@@ -191,10 +191,10 @@ public class PlayerInfoList {
                         }
                 }
                 if(page > 1){
-                        inv.setItem(45,util.newItem(Material.PAPER,0,"返回上一页",String.valueOf(page - 1)));
+                        inv.setItem(45, Util.newItem(Material.PAPER,0,"返回上一页",String.valueOf(page - 1)));
                 }
                 if(page < maxpage){
-                        inv.setItem(53,util.newItem(Material.PAPER,0,"前往下一页",String.valueOf(page + 1)));
+                        inv.setItem(53, Util.newItem(Material.PAPER,0,"前往下一页",String.valueOf(page + 1)));
                 }
                 p.openInventory(inv);
         }

@@ -11,10 +11,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
-public class collectTask extends Task {
+public class CollectTask extends Task {
     public List<ItemStack> submit = new ArrayList<>();
 
-    public collectTask(String path) {
+    public CollectTask(String path) {
         super(path);
         try{
             List<String> submit_item = Pass.config.getStringList(path+".submit");

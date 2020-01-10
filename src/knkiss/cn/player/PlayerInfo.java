@@ -1,9 +1,9 @@
 package knkiss.cn.player;
 
 import knkiss.cn.Pass;
-import knkiss.cn.task.craftTask;
-import knkiss.cn.task.killTask;
-import knkiss.cn.task.locationTask;
+import knkiss.cn.task.CraftTask;
+import knkiss.cn.task.KillTask;
+import knkiss.cn.task.LocationTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -60,7 +60,7 @@ public class PlayerInfo {
                     }
                 }
             }else{
-                this.craft = ((craftTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).craft;
+                this.craft = ((CraftTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).craft;
             }
         }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("kill")){
             if(Pass.config.contains(path+".kill")){
@@ -77,7 +77,7 @@ public class PlayerInfo {
                     }
                 }
             }else{
-                this.kill = ((killTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).kill;
+                this.kill = ((KillTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).kill;
             }
         }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("location")){
             if(Pass.config.contains(path+".location")){
@@ -98,7 +98,7 @@ public class PlayerInfo {
                     }
                 }
             }else{
-                this.location = ((locationTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).location;
+                this.location = ((LocationTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).location;
             }
         }
         updateConfig();
