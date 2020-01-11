@@ -2,6 +2,8 @@ package knkiss.cn.effect;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,10 +13,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Particle{
+public class PlayerEffect {
     Plugin plugin;
 
-    public Particle(Plugin plugin){
+    public PlayerEffect(Plugin plugin){
         this.plugin = plugin;
     }
 
@@ -45,6 +47,7 @@ public class Particle{
                         e.printStackTrace();
                     }
                 }
+                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F,0F);
                 p.setWalkSpeed(walkSpeed);
                 p.setFlySpeed(flySpeed);
                 this.cancel();
@@ -75,6 +78,7 @@ public class Particle{
                         e.printStackTrace();
                     }
                 }
+                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F,0F);
                 p.setWalkSpeed((float) 0.2);
                 p.setFlySpeed((float) 0.1);
                 this.cancel();

@@ -2,7 +2,7 @@ package knkiss.cn;
 
 import knkiss.cn.command.TestCommand;
 import knkiss.cn.command.PassCommand;
-import knkiss.cn.effect.Particle;
+import knkiss.cn.effect.PlayerEffect;
 import knkiss.cn.listener.InfoListener;
 import knkiss.cn.listener.InventoryListener;
 import knkiss.cn.player.PlayerInfoList;
@@ -19,7 +19,7 @@ public class Pass extends JavaPlugin implements Listener {
     public static FileConfiguration config;
     public static PlayerInfoList infoList;
     public static TaskList taskList;
-    public static Particle particle;
+    public static PlayerEffect effect;
     public static Logger log;
 
     @Override
@@ -52,6 +52,6 @@ public class Pass extends JavaPlugin implements Listener {
             }
         }.runTaskTimerAsynchronously(this,0,config.getInt("settings.saveTiming")*20);
 
-        particle= new Particle(this);
+        effect= new PlayerEffect(this);
     }
 }

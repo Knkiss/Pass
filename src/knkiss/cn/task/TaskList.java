@@ -50,6 +50,7 @@ public class TaskList {
 
     public void Finish(Player p){
         getTask(Pass.infoList.getPlayerLevel(p.getName())).Finish(p);
+        Pass.effect.YuanZhuTi_All(p);
     }
 
     public Task getTask(int level){
