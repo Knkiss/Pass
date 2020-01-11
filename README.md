@@ -1,4 +1,5 @@
-# Pass - Minecraft Plugin Pass
+# Pass - Minecraft Plugin
+通行证 - 我的世界插件
 
 ### 版本
 * `0.1.0` 首次发布。需手动配置config、包含收集和合成类任务。
