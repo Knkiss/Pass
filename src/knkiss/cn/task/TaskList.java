@@ -14,18 +14,18 @@ public class TaskList {
     public HashMap<String, Task> list = new HashMap<>();
 
     public TaskList(){
-        Set<String> keys= Pass.config.getKeys(true);
+        Set<String> keys= Pass.taskConfig.getKeys(true);
         String pattern = "(task..*).level";
         Pattern r = Pattern.compile(pattern);
         keys.forEach(path->{
             Matcher m = r.matcher(path);
             if(m.find()){
                 path = m.group(1);
-                int num = Pass.config.getInt(path+".level");
+                int num = Pass.taskConfig.getInt(path+".level");
                 if(list.containsKey(String.valueOf(num))){
                     Pass.log.warning("存在多个相同level="+num+"的任务");
                 }else{
-                    String type = Pass.config.getString(path+".type");
+                    String type = Pass.taskConfig.getString(path+".type");
                     if(type.equalsIgnoreCase("collect")) list.put(String.valueOf(num),new CollectTask(path));
                     if(type.equalsIgnoreCase("craft")) list.put(String.valueOf(num),new CraftTask(path));
                     if(type.equalsIgnoreCase("kill")) list.put(String.valueOf(num),new KillTask(path));

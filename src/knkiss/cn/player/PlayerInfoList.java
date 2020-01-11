@@ -27,8 +27,8 @@ public class PlayerInfoList {
 
         public void addPlayer(String name){
                 name = name.toLowerCase();
-                if(!Pass.config.contains("player."+name+".level")){
-                        Pass.config.set("player."+name+".level", 1);
+                if(!Pass.infoConfig.contains("player."+name+".level")){
+                        Pass.infoConfig.set("player."+name+".level", 1);
                 }
                 list.put(name,new PlayerInfo(name));
         }
@@ -46,13 +46,13 @@ public class PlayerInfoList {
                 if(Pass.taskList.list.containsKey(String.valueOf(level))){
                         if(Pass.taskList.getTask(level).type.equalsIgnoreCase("craft")){
                                 list.get(name).craft = ((CraftTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).craft;
-                                Pass.config.set("player."+name+".craft",list.get(name).craft);
+                                Pass.infoConfig.set("player."+name+".craft",list.get(name).craft);
                         }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("kill")){
                                 list.get(name).kill = ((KillTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).kill;
-                                Pass.config.set("player."+name+".kill",list.get(name).kill);
+                                Pass.infoConfig.set("player."+name+".kill",list.get(name).kill);
                         }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("location")){
                                 list.get(name).location = ((LocationTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).location;
-                                Pass.config.set("player."+name+".location",list.get(name).location);
+                                Pass.infoConfig.set("player."+name+".location",list.get(name).location);
                         }
                 }
                 list.get(name).updateConfig();
@@ -65,8 +65,8 @@ public class PlayerInfoList {
                         list.get(name).level = level;
                         list.get(name).updateConfig();
                 }else{
-                        if(Pass.config.contains("player."+name+".level")){
-                                Pass.config.set("player."+name+".level",level);
+                        if(Pass.infoConfig.contains("player."+name+".level")){
+                                Pass.infoConfig.set("player."+name+".level",level);
                         }else{
                                 return false;
                         }

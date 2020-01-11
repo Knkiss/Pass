@@ -17,7 +17,7 @@ public class CraftTask extends Task {
     public CraftTask(String path) {
         super(path);
         try{
-            List<String> craft_item = Pass.config.getStringList(path+".craft");
+            List<String> craft_item = Pass.taskConfig.getStringList(path+".craft");
             String pattern = "(.*)-(.*)-(.*)";
             Pattern r = Pattern.compile(pattern);
             craft_item.forEach(str->{

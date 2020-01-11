@@ -24,10 +24,10 @@ public abstract class Task {
     public Task(String path){
         try{
             this.path = path;
-            this.level = Pass.config.getInt(path +".level");
-            this.type = Pass.config.getString(path +".type");
+            this.level = Pass.taskConfig.getInt(path +".level");
+            this.type = Pass.taskConfig.getString(path +".type");
 
-            String item = Pass.config.getString(path +".info.item");
+            String item = Pass.taskConfig.getString(path +".info.item");
 
             String pattern = "(.*)-(.*)-(.*)";
             Pattern r = Pattern.compile(pattern);
@@ -36,14 +36,14 @@ public abstract class Task {
                 int ID = Integer.parseInt(m1.group(1));
                 int Durability = Integer.parseInt(m1.group(2));
                 int amount = Integer.parseInt(m1.group(3));
-                String name = Pass.config.getString(path +".info.name");
-                List<String> lore = Pass.config.getStringList(path +".info.lore");
+                String name = Pass.taskConfig.getString(path +".info.name");
+                List<String> lore = Pass.taskConfig.getStringList(path +".info.lore");
                 this.logo = Util.newItem(ID,amount,Durability,name,lore);
             }else{
                 this.logo = Util.newItem(Material.BOOK,0,"图标错误的任务");
             }
 
-            List<String> reward_item = Pass.config.getStringList(path+".reward");
+            List<String> reward_item = Pass.taskConfig.getStringList(path+".reward");
             reward_item.forEach(str->{
                 Matcher m = r.matcher(str);
                 if(m.find()){

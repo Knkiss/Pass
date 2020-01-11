@@ -19,7 +19,7 @@ public class LocationTask extends Task {
     public LocationTask(String path) {
         super(path);
         try{
-            List<String> craft_item = Pass.config.getStringList(path+".location");
+            List<String> craft_item = Pass.taskConfig.getStringList(path+".location");
             String pattern = "(.*)-(.*)-(.*)-(.*)";
             Pattern r = Pattern.compile(pattern);
             craft_item.forEach(str->{

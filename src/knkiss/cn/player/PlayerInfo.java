@@ -29,10 +29,10 @@ public class PlayerInfo {
     PlayerInfo(String name){
         this.path = "player."+name;
         this.name = name;
-        this.level = Pass.config.getInt(path+".level");
+        this.level = Pass.infoConfig.getInt(path+".level");
 
-        if(Pass.config.contains(path+".reward")){
-            rewardStr = Pass.config.getStringList(path+".reward");
+        if(Pass.infoConfig.contains(path+".reward")){
+            rewardStr = Pass.infoConfig.getStringList(path+".reward");
             for(String item:rewardStr){
                 String pattern = "(.*)-(.*)-(.*)";
                 Pattern r = Pattern.compile(pattern);
@@ -47,8 +47,8 @@ public class PlayerInfo {
         }
 
         if(Pass.taskList.getTask(level).type.equalsIgnoreCase("craft")){
-            if(Pass.config.contains(path+".craft")){
-                for(String item:Pass.config.getStringList(path+".craft")){
+            if(Pass.infoConfig.contains(path+".craft")){
+                for(String item:Pass.infoConfig.getStringList(path+".craft")){
                     String pattern = "(.*)-(.*)-(.*)";
                     Pattern r = Pattern.compile(pattern);
                     Matcher m1 = r.matcher(item);
@@ -63,8 +63,8 @@ public class PlayerInfo {
                 this.craft = ((CraftTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).craft;
             }
         }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("kill")){
-            if(Pass.config.contains(path+".kill")){
-                for(String entity:Pass.config.getStringList(path+".kill")){
+            if(Pass.infoConfig.contains(path+".kill")){
+                for(String entity:Pass.infoConfig.getStringList(path+".kill")){
                     String pattern = "(.*)-(.*)";
                     Pattern r = Pattern.compile(pattern);
                     Matcher m1 = r.matcher(entity);
@@ -80,8 +80,8 @@ public class PlayerInfo {
                 this.kill = ((KillTask) Pass.taskList.getTask(Pass.infoList.getPlayerLevel(name))).kill;
             }
         }else if(Pass.taskList.getTask(level).type.equalsIgnoreCase("location")){
-            if(Pass.config.contains(path+".location")){
-                for(String locate:Pass.config.getStringList(path+".location")){
+            if(Pass.infoConfig.contains(path+".location")){
+                for(String locate:Pass.infoConfig.getStringList(path+".location")){
                     String pattern = "(.*)-(.*)-(.*)-(.*)";
                     Pattern r = Pattern.compile(pattern);
                     Matcher m1 = r.matcher(locate);
@@ -137,13 +137,13 @@ public class PlayerInfo {
     }
 
     public void updateConfig(){
-        Pass.config.set(path+".level",level);
-        Pass.config.set(path+".reward",rewardStr);
+        Pass.infoConfig.set(path+".level",level);
+        Pass.infoConfig.set(path+".reward",rewardStr);
 
 
         List<String> craftStr = new ArrayList<>();
         craft.forEach(item-> craftStr.add(item.getTypeId()+"-"+item.getDurability()+"-"+item.getAmount()));
-        Pass.config.set(path+".craft",craftStr);
+        Pass.infoConfig.set(path+".craft",craftStr);
 
 
         HashMap<Integer,Integer> killList=new HashMap<>();
@@ -156,11 +156,11 @@ public class PlayerInfo {
             }
         });
         killList.forEach((typeID,number)-> killStr.add(typeID+"-"+number));
-        Pass.config.set(path+".kill",killStr);
+        Pass.infoConfig.set(path+".kill",killStr);
 
 
         List<String> locationStr = new ArrayList<>();
         location.forEach(locate-> locationStr.add((int)locate.getX()+"-"+(int)locate.getY()+"-"+(int)locate.getZ()+"-"+locate.getWorld().getName()));
-        Pass.config.set(path+".location",locationStr);
+        Pass.infoConfig.set(path+".location",locationStr);
     }
 }

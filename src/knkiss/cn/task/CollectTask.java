@@ -17,7 +17,7 @@ public class CollectTask extends Task {
     public CollectTask(String path) {
         super(path);
         try{
-            List<String> submit_item = Pass.config.getStringList(path+".submit");
+            List<String> submit_item = Pass.taskConfig.getStringList(path+".submit");
             String pattern = "(.*)-(.*)-(.*)";
             Pattern r = Pattern.compile(pattern);
             submit_item.forEach(str->{

@@ -18,7 +18,7 @@ public class KillTask extends Task {
     public KillTask(String path) {
         super(path);
         try{
-            List<String> craft_item = Pass.config.getStringList(path+".kill");
+            List<String> craft_item = Pass.taskConfig.getStringList(path+".kill");
             String pattern = "(.*)-(.*)";
             Pattern r = Pattern.compile(pattern);
             craft_item.forEach(str->{
