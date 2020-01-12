@@ -53,6 +53,17 @@ public class Util {
         return i;
     }
 
+    public static ItemStack newItem(Material material,int Durability,String Display,List<String> Lore)
+    {
+        ItemStack i = new ItemStack(material);
+        i.setDurability((short) Durability);
+        ItemMeta iMeta = i.getItemMeta();
+        iMeta.setLore(Lore);
+        iMeta.setDisplayName(Display);
+        i.setItemMeta(iMeta);
+        return i;
+    }
+
     public static boolean canParseInt(String str){
         if(str == null){
             return false;

@@ -2,6 +2,7 @@ package knkiss.cn;
 
 import knkiss.cn.command.TestCommand;
 import knkiss.cn.command.PassCommand;
+import knkiss.cn.config.Interface;
 import knkiss.cn.effect.PlayerEffect;
 import knkiss.cn.listener.InfoListener;
 import knkiss.cn.listener.InventoryListener;
@@ -28,6 +29,7 @@ public class Pass extends JavaPlugin implements Listener {
     public static TaskList taskList;
     public static PlayerEffect effect;
     public static Logger log;
+    public static Interface Face;
 
     @Override
     public void onEnable() {

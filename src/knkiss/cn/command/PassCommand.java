@@ -1,6 +1,7 @@
 package knkiss.cn.command;
 
 import knkiss.cn.Pass;
+import knkiss.cn.config.Interface;
 import knkiss.cn.player.PlayerInfoList;
 import knkiss.cn.Util;
 import org.bukkit.command.Command;
@@ -106,7 +107,16 @@ public class PassCommand implements CommandExecutor {
                 }
                 if (!Util.canParseInt(args[1])) sender.sendMessage("/pass skip <number> number必须为整数");
             } if (args.length != 2) sender.sendMessage("/pass skip <number>");
-        }else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")){
+        }else if(args[0].equalsIgnoreCase("create")){
+            //pass create
+            if(!sender.hasPermission("Pass.create")){
+                sender.sendMessage("你没有[Pass.create]权限");
+                return true;
+            }
+            if(!(sender instanceof Player)) return false;
+            Pass.Face.logoInv((Player) sender);
+            return true;
+        } else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")){
             //pass help
             sender.sendMessage("---------------------Pass 通行证---------------------------");
             sender.sendMessage("/pass help - 查看帮助");
