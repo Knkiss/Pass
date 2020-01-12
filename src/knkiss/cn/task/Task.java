@@ -54,7 +54,7 @@ public abstract class Task {
                 }
             });
         }catch (Exception e){
-            Pass.log.warning("路径为"+path+"的任务基础内容有误");
+            Pass.pass.getLogger().warning("路径为"+path+"的任务基础内容有误");
             this.enable = false;
         }
     }

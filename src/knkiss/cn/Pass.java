@@ -29,7 +29,6 @@ public class Pass extends JavaPlugin implements Listener {
     public static PlayerInfoList infoList;
     public static TaskList taskList;
     public static Effects effect;
-    public static Logger log;
     public static Messages messages;
 
     @Override
@@ -67,7 +66,6 @@ public class Pass extends JavaPlugin implements Listener {
         taskConfig = YamlConfiguration.loadConfiguration(taskFile);
         infoConfig = YamlConfiguration.loadConfiguration(infoFile);
         config = this.getConfig();
-        log = this.getLogger();
         infoList = new PlayerInfoList();
         taskList = new TaskList();
         messages = new Messages();

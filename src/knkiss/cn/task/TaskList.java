@@ -24,7 +24,7 @@ public class TaskList {
                 path = m.group(1);
                 int num = Pass.taskConfig.getInt(path+".level");
                 if(list.containsKey(String.valueOf(num))){
-                    Pass.log.warning("存在多个相同level="+num+"的任务");
+                    Pass.pass.getLogger().warning("存在多个相同level="+num+"的任务");
                 }else{
                     String type = Pass.taskConfig.getString(path+".type");
                     if(type.equalsIgnoreCase("collect")) list.put(String.valueOf(num),new CollectTask(path));

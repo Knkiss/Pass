@@ -32,7 +32,7 @@ public class CollectTask extends Task {
             });
         }catch (Exception e){
             this.enable = false;
-            Pass.log.warning("路径为"+path+"的任务扩展内容有误");
+            Pass.pass.getLogger().warning("路径为"+path+"的任务扩展内容有误");
         }
     }
 
