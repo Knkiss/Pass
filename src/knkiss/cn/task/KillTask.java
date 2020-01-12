@@ -1,6 +1,7 @@
 package knkiss.cn.task;
 
 import knkiss.cn.Pass;
+import knkiss.cn.util.Messages;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -33,7 +34,7 @@ public class KillTask extends Task {
             });
         }catch (Exception e){
             this.enable = false;
-            Pass.log.warning("路径为"+path+"的任务扩展内容有误");
+            Pass.pass.getLogger().warning("路径为"+path+"的任务扩展内容有误");
         }
     }
 
@@ -42,7 +43,7 @@ public class KillTask extends Task {
         if(Pass.infoList.getPlayerInfo(p).kill.isEmpty()){
             return true;
         }
-        p.sendMessage("还需击杀："+Pass.infoList.getPlayerInfo(p).kill.toString());
+        p.sendMessage(Messages.taskKillFault(Pass.infoList.getPlayerInfo(p).kill));
         return false;
     }
 
@@ -50,7 +51,7 @@ public class KillTask extends Task {
     public void Finish(Player p) {
         Pass.infoList.list.get(p.getName().toLowerCase()).addReward(this.reward);
         Pass.infoList.addPlayerLevel(p.getName());
-        p.sendTitle("任务完成！","当前等级："+ Pass.infoList.getPlayerLevel(p.getName())+" 已将奖励存储到奖励箱");
+        Messages.taskFinishTitle(p,Pass.infoList.getPlayerLevel(p.getName()));
     }
 
     @Override

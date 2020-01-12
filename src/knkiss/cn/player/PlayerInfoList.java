@@ -1,11 +1,12 @@
 package knkiss.cn.player;
 
 import knkiss.cn.Pass;
+import knkiss.cn.util.Messages;
 import knkiss.cn.task.CraftTask;
 import knkiss.cn.task.KillTask;
 import knkiss.cn.task.LocationTask;
 import knkiss.cn.task.Task;
-import knkiss.cn.Util;
+import knkiss.cn.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -88,7 +89,7 @@ public class PlayerInfoList {
                         list.get(p.getName().toLowerCase()).addReward(Pass.taskList.getTask(Pass.infoList.getPlayerLevel(p.getName())).reward);
                         Pass.infoList.addPlayerLevel(p.getName());
                 }
-                p.sendTitle("任务完成！","当前等级："+ Pass.infoList.getPlayerLevel(p.getName())+" 已将奖励存储到奖励箱");
+                Messages.taskFinishTitle(p,Pass.infoList.getPlayerLevel(p.getName()));
         }
 
         public void skipLevel(Player p,int n){
@@ -97,6 +98,7 @@ public class PlayerInfoList {
                         Pass.infoList.addPlayerLevel(p.getName());
                 }
                 p.sendTitle("已跳过 "+ n +" 个任务","当前等级："+ Pass.infoList.getPlayerLevel(p.getName()));
+                Messages.taskSkipTitle(p,Pass.infoList.getPlayerLevel(p.getName()));
         }
 
         public void check(CommandSender sender){
@@ -113,11 +115,11 @@ public class PlayerInfoList {
         public void showTask(Player p, int page) {
                 HashMap<String, Task> task = Pass.taskList.list;
                 Inventory inv = Bukkit.createInventory(p, 6 * 9, "TaskList");
-                ItemStack Locked = Util.newItem(Material.STAINED_GLASS_PANE, 14, "Locked");
-                ItemStack Doing = Util.newItem(Material.STAINED_GLASS_PANE, 4, "Doing");
-                ItemStack Passed = Util.newItem(Material.STAINED_GLASS_PANE, 5, "Passed");
-                ItemStack Next = Util.newItem(Material.PAPER, 0, "前往下一页",String.valueOf(page+1));
-                ItemStack Last = Util.newItem(Material.PAPER, 0, "返回上一页",String.valueOf(page-1));
+                ItemStack Locked = Utils.newItem(Material.STAINED_GLASS_PANE, 14, "Locked");
+                ItemStack Doing = Utils.newItem(Material.STAINED_GLASS_PANE, 4, "Doing");
+                ItemStack Passed = Utils.newItem(Material.STAINED_GLASS_PANE, 5, "Passed");
+                ItemStack Next = Utils.newItem(Material.PAPER, 0, "前往下一页",String.valueOf(page+1));
+                ItemStack Last = Utils.newItem(Material.PAPER, 0, "返回上一页",String.valueOf(page-1));
                 int level = Pass.infoList.getPlayerLevel(p.getName()); //36
                 int stateLine = ((level - 1) / 9 + 1); //4
                 int maxLine = (task.size() - page * 36) / 9 + 1;
@@ -191,10 +193,10 @@ public class PlayerInfoList {
                         }
                 }
                 if(page > 1){
-                        inv.setItem(45, Util.newItem(Material.PAPER,0,"返回上一页",String.valueOf(page - 1)));
+                        inv.setItem(45, Utils.newItem(Material.PAPER,0,"返回上一页",String.valueOf(page - 1)));
                 }
                 if(page < maxpage){
-                        inv.setItem(53, Util.newItem(Material.PAPER,0,"前往下一页",String.valueOf(page + 1)));
+                        inv.setItem(53, Utils.newItem(Material.PAPER,0,"前往下一页",String.valueOf(page + 1)));
                 }
                 p.openInventory(inv);
         }

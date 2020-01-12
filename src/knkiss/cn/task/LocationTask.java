@@ -1,6 +1,7 @@
 package knkiss.cn.task;
 
 import knkiss.cn.Pass;
+import knkiss.cn.util.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("deprecation")
 public class LocationTask extends Task {
 
     public List<Location> location = new ArrayList<>();
@@ -38,7 +38,7 @@ public class LocationTask extends Task {
             });
         }catch (Exception e){
             this.enable = false;
-            Pass.log.warning("路径为"+path+"的任务扩展内容有误");
+            Pass.pass.getLogger().warning("路径为"+path+"的任务扩展内容有误");
         }
     }
 
@@ -47,7 +47,7 @@ public class LocationTask extends Task {
         if(Pass.infoList.getPlayerInfo(p).location.isEmpty()){
             return true;
         }
-        p.sendMessage("还需抵达："+Pass.infoList.getPlayerInfo(p).location.toString());
+        p.sendMessage(Messages.taskLocationFault(Pass.infoList.getPlayerInfo(p).location));
         return false;
     }
 
@@ -55,7 +55,7 @@ public class LocationTask extends Task {
     public void Finish(Player p) {
         Pass.infoList.list.get(p.getName().toLowerCase()).addReward(this.reward);
         Pass.infoList.addPlayerLevel(p.getName());
-        p.sendTitle("任务完成！","当前等级："+ Pass.infoList.getPlayerLevel(p.getName())+" 已将奖励存储到奖励箱");
+        Messages.taskFinishTitle(p,Pass.infoList.getPlayerLevel(p.getName()));
     }
 
     @Override

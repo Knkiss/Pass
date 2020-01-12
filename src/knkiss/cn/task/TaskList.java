@@ -1,6 +1,7 @@
 package knkiss.cn.task;
 
 import knkiss.cn.Pass;
+import knkiss.cn.util.Messages;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -23,7 +24,7 @@ public class TaskList {
                 path = m.group(1);
                 int num = Pass.taskConfig.getInt(path+".level");
                 if(list.containsKey(String.valueOf(num))){
-                    Pass.log.warning("存在多个相同level="+num+"的任务");
+                    Pass.pass.getLogger().warning("存在多个相同level="+num+"的任务");
                 }else{
                     String type = Pass.taskConfig.getString(path+".type");
                     if(type.equalsIgnoreCase("collect")) list.put(String.valueOf(num),new CollectTask(path));
@@ -38,11 +39,11 @@ public class TaskList {
 
     public boolean canFinish(Player p){
         if(!list.containsKey(String.valueOf(Pass.infoList.getPlayerLevel(p.getName())))){
-            p.sendMessage("暂时无下个任务，请等候开启");
+            p.sendMessage(Messages.taskDisable());
             return false;
         }
         if(!getTask(Pass.infoList.getPlayerLevel(p.getName())).enable){
-            p.sendMessage("下个任务还未开启，请等候开启");
+            p.sendMessage(Messages.taskDisable());
             return false;
         }
         return getTask(Pass.infoList.getPlayerLevel(p.getName())).canFinish(p);

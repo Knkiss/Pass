@@ -4,6 +4,8 @@ import knkiss.cn.command.TestCommand;
 import knkiss.cn.command.PassCommand;
 import knkiss.cn.config.Interface;
 import knkiss.cn.effect.PlayerEffect;
+import knkiss.cn.util.Effects;
+import knkiss.cn.util.Messages;
 import knkiss.cn.listener.InfoListener;
 import knkiss.cn.listener.InventoryListener;
 import knkiss.cn.player.PlayerInfoList;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 public class Pass extends JavaPlugin implements Listener {
+    public static Pass pass;
     public static File taskFile;
     public static File infoFile;
     public static FileConfiguration config;
@@ -30,9 +33,12 @@ public class Pass extends JavaPlugin implements Listener {
     public static PlayerEffect effect;
     public static Logger log;
     public static Interface Face;
+    public static Effects effect;
+    public static Messages messages;
 
     @Override
     public void onEnable() {
+        pass = this;
         this.getLogger().info("大家快来完成任务吧！");
         this.init();
     }
@@ -61,15 +67,16 @@ public class Pass extends JavaPlugin implements Listener {
         saveDefaultConfig();
         this.saveResource("task.yml", false);
         this.saveResource("info.yml", false);
+        this.saveResource("lang.yml", false);
 
         taskFile = new File(this.getDataFolder(), "task.yml");
         infoFile = new File(this.getDataFolder(), "info.yml");
         taskConfig = YamlConfiguration.loadConfiguration(taskFile);
         infoConfig = YamlConfiguration.loadConfiguration(infoFile);
         config = this.getConfig();
-        log = this.getLogger();
         infoList = new PlayerInfoList();
         taskList = new TaskList();
+        messages = new Messages();
 
         new BukkitRunnable(){//更新线程
             @Override
@@ -82,6 +89,6 @@ public class Pass extends JavaPlugin implements Listener {
             }
         }.runTaskTimerAsynchronously(this,0,config.getInt("settings.saveTiming")*20);
 
-        effect= new PlayerEffect(this);
+        effect= new Effects(this);
     }
 }

@@ -1,22 +1,15 @@
-package knkiss.cn.effect;
+package knkiss.cn.util;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class PlayerEffect {
+public class Effects {
     Plugin plugin;
 
-    public PlayerEffect(Plugin plugin){
+    public Effects(Plugin plugin){
         this.plugin = plugin;
     }
 
