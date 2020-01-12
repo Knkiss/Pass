@@ -1,6 +1,7 @@
 package knkiss.cn.task;
 
 import knkiss.cn.Pass;
+import knkiss.cn.util.Messages;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +39,7 @@ public class CollectTask extends Task {
     @Override
     public boolean canFinish(Player p) {
         if(!this.enable){
-            p.sendMessage("下个任务还未开启，请等待任务开启");
+            p.sendMessage(Messages.taskDisable());
             return false;
         }
 
@@ -59,7 +60,7 @@ public class CollectTask extends Task {
             if (n != 0) canFinish = false;
         }
         if(!canFinish) {
-            p.sendMessage("未收集齐任务需要物品，无法完成任务");
+            p.sendMessage(Messages.taskCollectFault());
             return false;
         }else {
             return true;
@@ -86,7 +87,7 @@ public class CollectTask extends Task {
         }
         Pass.infoList.list.get(p.getName().toLowerCase()).addReward(this.reward);
         Pass.infoList.addPlayerLevel(p.getName());
-        p.sendTitle("任务完成！","当前等级："+ Pass.infoList.getPlayerLevel(p.getName())+" 已将奖励存储到奖励箱");
+        Messages.taskFinishTitle(p,Pass.infoList.getPlayerLevel(p.getName()));
     }
 
     @Override

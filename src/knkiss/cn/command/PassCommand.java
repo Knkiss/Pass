@@ -1,8 +1,9 @@
 package knkiss.cn.command;
 
 import knkiss.cn.Pass;
+import knkiss.cn.util.Messages;
 import knkiss.cn.player.PlayerInfoList;
-import knkiss.cn.Util;
+import knkiss.cn.util.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,7 +34,7 @@ public class PassCommand implements CommandExecutor {
             Pass.infoList.showReward((Player)sender);
         }else if(args[0].equalsIgnoreCase("check")){
             if(!sender.hasPermission("Pass.check")){
-                sender.sendMessage("你没有[Pass.check]权限");
+                sender.sendMessage(Messages.noPermission("Pass.check"));
                 return true;
             }
             //pass check [task/player]
@@ -46,66 +47,66 @@ public class PassCommand implements CommandExecutor {
                 }else if(args[1].equalsIgnoreCase("player")){
                     Pass.infoList.check(sender);
                 }else {
-                    sender.sendMessage("/pass check [task/player]");
+                    sender.sendMessage(Messages.faultCommand("/pass check [task/player]"));
                 }
             }
         }else if(args[0].equalsIgnoreCase("set")){
             if(!sender.hasPermission("Pass.set")){
-                sender.sendMessage("你没有[Pass.set]权限");
+                sender.sendMessage(Messages.noPermission("Pass.set"));
                 return true;
             }
             //pass set <name> <number>
             if (args.length == 3){
-                if(Util.canParseInt(args[2])){
+                if(Utils.canParseInt(args[2])){
                     int level = Integer.parseInt(args[2]);
                     if(!Pass.infoList.setPlayerLevel(args[1],level)){
-                        sender.sendMessage("不存在 "+ args[1] +" 玩家");
+                        sender.sendMessage(Messages.setLevelFault(args[1]));
                     }else{
                         if (level >= PlayerInfoList.maxLevel) level = 1;
-                        sender.sendMessage("已将 "+ args[1] +" 玩家等级设置为 "+level);
+                        sender.sendMessage(Messages.setLevelFinish(args[1],level));
                     }
                 }else{
-                    sender.sendMessage("/pass set <name> <number> number必须为纯数字");
+                    sender.sendMessage(Messages.faultCommand("/pass set <name> <number>"));
                 }
             }else{
-                sender.sendMessage("/pass set <name> <number>");
+                sender.sendMessage(Messages.faultCommand("/pass set <name> <number>"));
             }
         }else if(args[0].equalsIgnoreCase("buy")){
             if(!sender.hasPermission("Pass.buy")){
-                sender.sendMessage("你没有[Pass.buy]权限");
+                sender.sendMessage(Messages.noPermission("Pass.buy"));
                 return true;
             }
             if(!(sender instanceof Player))return false;
             Player p = (Player) sender;
             //pass buy <number>
             if (args.length == 2) {
-                if (Util.canParseInt(args[1])) {
+                if (Utils.canParseInt(args[1])) {
                     int i = Pass.infoList.canBS(p, Integer.parseInt(args[1]));
                     if (i == 0)
                         Pass.infoList.buyLevel(p, Integer.parseInt(args[1]));
-                    if (i == 1) sender.sendMessage("购买后等级超出上限");
-                    if (i == 2) sender.sendMessage("购买任务中含 不可完成/有错误 的任务");
+                    if (i == 1) sender.sendMessage(Messages.buyLevelFault1());
+                    if (i == 2) sender.sendMessage(Messages.buyLevelFault2());
                 }
-                if (!Util.canParseInt(args[1])) sender.sendMessage("/pass buy <number> number必须为整数");
-            }  if (args.length != 2) sender.sendMessage("/pass buy <number>");
+                if (!Utils.canParseInt(args[1])) sender.sendMessage(Messages.faultCommand("/pass buy <number>"));
+            }  if (args.length != 2) sender.sendMessage(Messages.faultCommand("/pass buy <number>"));
         }else if(args[0].equalsIgnoreCase("skip")) {
             if(!sender.hasPermission("Pass.skip")){
-                sender.sendMessage("你没有[Pass.skip]权限");
+                sender.sendMessage(Messages.noPermission("Pass.skip"));
                 return true;
             }
             if(!(sender instanceof Player))return false;
             Player p = (Player) sender;
             //pass skip <number>
             if (args.length == 2) {
-                if (Util.canParseInt(args[1])) {
+                if (Utils.canParseInt(args[1])) {
                     int i = Pass.infoList.canBS(p, Integer.parseInt(args[1]));
                     if (i == 0)
                         Pass.infoList.skipLevel(p, Integer.parseInt(args[1]));
-                    if (i == 1) sender.sendMessage("跳过后等级超出上限");
-                    if (i == 2) sender.sendMessage("跳过任务中含 不可完成/有错误 的任务");
+                    if (i == 1) sender.sendMessage(Messages.skipLevelFault1());
+                    if (i == 2) sender.sendMessage(Messages.skipLevelFault2());
                 }
-                if (!Util.canParseInt(args[1])) sender.sendMessage("/pass skip <number> number必须为整数");
-            } if (args.length != 2) sender.sendMessage("/pass skip <number>");
+                if (!Utils.canParseInt(args[1])) sender.sendMessage(Messages.faultCommand("/pass skip <number>"));
+            } if (args.length != 2) sender.sendMessage(Messages.faultCommand("/pass skip <number>"));
         }else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")){
             //pass help
             sender.sendMessage("---------------------Pass 通行证---------------------------");

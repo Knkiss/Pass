@@ -1,6 +1,7 @@
 package knkiss.cn.task;
 
 import knkiss.cn.Pass;
+import knkiss.cn.util.Messages;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -40,7 +41,7 @@ public class CraftTask extends Task {
         if(Pass.infoList.getPlayerInfo(p).craft.isEmpty()){
             return true;
         }
-        p.sendMessage("还需制作："+Pass.infoList.getPlayerInfo(p).craft.toString());
+        p.sendMessage(Messages.taskCraftFault(Pass.infoList.getPlayerInfo(p).craft));
         return false;
     }
 
@@ -48,7 +49,7 @@ public class CraftTask extends Task {
     public void Finish(Player p) {
         Pass.infoList.list.get(p.getName().toLowerCase()).addReward(this.reward);
         Pass.infoList.addPlayerLevel(p.getName());
-        p.sendTitle("任务完成！","当前等级："+ Pass.infoList.getPlayerLevel(p.getName())+" 已将奖励存储到奖励箱");
+        Messages.taskFinishTitle(p,Pass.infoList.getPlayerLevel(p.getName()));
     }
 
     @Override

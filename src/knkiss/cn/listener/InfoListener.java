@@ -1,7 +1,8 @@
 package knkiss.cn.listener;
 
 import knkiss.cn.Pass;
-import knkiss.cn.Util;
+import knkiss.cn.util.Utils;
+import knkiss.cn.util.Messages;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -31,7 +32,7 @@ public class InfoListener implements Listener {
     public void onCraftItem(InventoryClickEvent e){
         if(!e.getSlotType().equals(InventoryType.SlotType.RESULT)) return;
         if(e.getAction().equals(InventoryAction.NOTHING))return;
-        if(!Util.isCraftAction(e.getAction()))return;
+        if(!Utils.isCraftAction(e.getAction()))return;
         if(e.getCurrentItem()==null)return;
 
         Player p = (Player) e.getWhoClicked();
@@ -100,7 +101,7 @@ public class InfoListener implements Listener {
                 double dz = location.getZ() - p.getLocation().getZ();
                 double r = Math.sqrt(dx*dx+dy*dy+dz*dz);
                 if(r >= 3) last.add(location);
-                else p.sendMessage("已成功标记此地点");
+                else p.sendMessage(Messages.locationOne());
             }else{
                 last.add(location);
             }
