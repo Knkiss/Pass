@@ -1,7 +1,6 @@
 package knkiss.cn.command;
 
 import knkiss.cn.Pass;
-import knkiss.cn.config.Interface;
 import knkiss.cn.util.Messages;
 import knkiss.cn.player.PlayerInfoList;
 import knkiss.cn.util.Utils;
@@ -106,7 +105,7 @@ public class PassCommand implements CommandExecutor {
                     if (i == 1) sender.sendMessage(Messages.skipLevelFault1());
                     if (i == 2) sender.sendMessage(Messages.skipLevelFault2());
                 }
-                if (!Util.canParseInt(args[1])) sender.sendMessage("/pass skip <number> number必须为整数");
+                if (!Utils.canParseInt(args[1])) sender.sendMessage("/pass skip <number> number必须为整数");
             } if (args.length != 2) sender.sendMessage("/pass skip <number>");
         }else if(args[0].equalsIgnoreCase("create")){
             //pass create
@@ -117,9 +116,6 @@ public class PassCommand implements CommandExecutor {
             if(!(sender instanceof Player)) return false;
             Pass.Face.logoInv((Player) sender);
             return true;
-        } else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")){
-                if (!Utils.canParseInt(args[1])) sender.sendMessage(Messages.faultCommand("/pass skip <number>"));
-            } if (args.length != 2) sender.sendMessage(Messages.faultCommand("/pass skip <number>"));
         }else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")){
             //pass help
             sender.sendMessage("---------------------Pass 通行证---------------------------");

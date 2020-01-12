@@ -1,6 +1,6 @@
 name: Pass
 main: knkiss.cn.Pass
-version: 0.2.1
+version: 0.2.2
 authors: [Knkiss, Dnkiss]
 
 commands:

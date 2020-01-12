@@ -3,7 +3,6 @@ package knkiss.cn;
 import knkiss.cn.command.TestCommand;
 import knkiss.cn.command.PassCommand;
 import knkiss.cn.config.Interface;
-import knkiss.cn.effect.PlayerEffect;
 import knkiss.cn.util.Effects;
 import knkiss.cn.util.Messages;
 import knkiss.cn.listener.InfoListener;
@@ -19,7 +18,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 public class Pass extends JavaPlugin implements Listener {
     public static Pass pass;
@@ -30,10 +28,8 @@ public class Pass extends JavaPlugin implements Listener {
     public static FileConfiguration infoConfig;
     public static PlayerInfoList infoList;
     public static TaskList taskList;
-    public static PlayerEffect effect;
-    public static Logger log;
-    public static Interface Face;
     public static Effects effect;
+    public static Interface Face;
     public static Messages messages;
 
     @Override
