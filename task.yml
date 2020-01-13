@@ -13,6 +13,7 @@ task:
       - 17-0-10
     reward:
       - 264-0-1
+      - '/teleport %p 100 100 100'
   craft1:
     level: 2
     type: craft

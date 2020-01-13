@@ -1,6 +1,7 @@
 package knkiss.cn.task;
 
 import knkiss.cn.Pass;
+import knkiss.cn.util.Messages;
 import knkiss.cn.util.Utils;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -20,6 +21,7 @@ public abstract class Task {
     public ItemStack logo;
     public boolean enable = true;
     public List<ItemStack> reward = new ArrayList<>();
+    public List<String> command = new ArrayList<>();
 
     public Task(String path){
         try{
@@ -53,6 +55,15 @@ public abstract class Task {
                     this.reward.add(new ItemStack(ID,amount,(short)Durability));
                 }
             });
+
+            pattern = "/(.*)";
+            Pattern r1 = Pattern.compile(pattern);
+            reward_item.forEach(str->{
+                Matcher m = r1.matcher(str);
+                if(m.find()){
+                    this.command.add(m.group(1));
+                }
+            });
         }catch (Exception e){
             Pass.pass.getLogger().warning("路径为"+path+"的任务基础内容有误");
             this.enable = false;
@@ -62,6 +73,14 @@ public abstract class Task {
     public abstract boolean canFinish(Player p);
     public abstract void Finish(Player p);
     public abstract void sendToPlayer(CommandSender sender);
+
+    public void FinishSuper(Player p){
+        Pass.infoList.list.get(p.getName().toLowerCase()).addReward(this.reward);
+        this.command.forEach(command-> Utils.runCommandOp(p,command.replace("%p",p.getName())));
+        Pass.infoList.addPlayerLevel(p.getName());
+        Messages.taskFinishTitle(p,Pass.infoList.getPlayerLevel(p.getName()));
+    }
+
     public void sendToPlayerSuper(CommandSender sender){
         sender.sendMessage("-------------TaskList-------------------");
         sender.sendMessage("level:" + level+"  type:" + type);

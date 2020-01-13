@@ -2,6 +2,7 @@ package knkiss.cn.task;
 
 import knkiss.cn.Pass;
 import knkiss.cn.util.Messages;
+import knkiss.cn.util.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -85,9 +86,7 @@ public class CollectTask extends Task {
                 }
             }
         }
-        Pass.infoList.list.get(p.getName().toLowerCase()).addReward(this.reward);
-        Pass.infoList.addPlayerLevel(p.getName());
-        Messages.taskFinishTitle(p,Pass.infoList.getPlayerLevel(p.getName()));
+        FinishSuper(p);
     }
 
     @Override

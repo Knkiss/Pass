@@ -1,6 +1,7 @@
 package knkiss.cn.util;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -83,5 +84,35 @@ public class Utils {
         return !ac.equals(InventoryAction.COLLECT_TO_CURSOR);
     }
 
-
+    public static boolean runCommandOp(Player p, String command)
+    {
+        if (!p.isOp())
+        {
+            try
+            {
+                p.setOp(true);
+                p.performCommand(command);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            finally
+            {
+                p.setOp(false);
+            }
+        }
+        else
+        {
+            try
+            {
+                p.performCommand(command);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

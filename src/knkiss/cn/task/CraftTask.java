@@ -47,9 +47,7 @@ public class CraftTask extends Task {
 
     @Override
     public void Finish(Player p) {
-        Pass.infoList.list.get(p.getName().toLowerCase()).addReward(this.reward);
-        Pass.infoList.addPlayerLevel(p.getName());
-        Messages.taskFinishTitle(p,Pass.infoList.getPlayerLevel(p.getName()));
+        FinishSuper(p);
     }
 
     @Override
